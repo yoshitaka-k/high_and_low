@@ -1,0 +1,2 @@
+pub const TICK_RATE_MILLIS: u64 = 200;
+pub const PHASE_ADVANCE_DELAY_TICKS: u8 = 8;

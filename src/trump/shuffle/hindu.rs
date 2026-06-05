@@ -1,0 +1,74 @@
+use crate::trump::Card;
+use crate::trump::shuffle::SimpleRand;
+
+/// ヒンズー回数、落とす枚数の上限の指定
+pub struct HinduParams {
+    /// ヒンズーを繰り返す回数
+    pub iterations: usize,
+    /// 山から一度に落とす枚数の下限（この値の乱数〜max）
+    pub min_chunk: usize,
+    /// 山から一度に落とす枚数の上限（min〜この値の乱数）
+    pub max_chunk: usize,
+}
+
+impl Default for HinduParams {
+    fn default() -> Self {
+        Self {
+            iterations: 1,
+            min_chunk: 5,
+            max_chunk: 10,
+        }
+    }
+}
+
+/// 山札の切り方（ヒンズー方式）
+pub fn hindu_shuffle(cards: &mut Vec<Card>, params: &HinduParams) {
+    let iterations = params.iterations.max(1);
+    let min_chunk = params.min_chunk.max(1);
+    let max_chunk = params.max_chunk.max(min_chunk);
+
+    for _ in 0..iterations {
+        hindu_shuffle_once(cards, min_chunk, max_chunk);
+    }
+}
+
+fn hindu_shuffle_once(cards: &mut Vec<Card>, min_chunk: usize, max_chunk: usize) {
+    if cards.len() < 2 {
+        return;
+    }
+
+    let mut rng = SimpleRand::new();
+    let mut mixed = Vec::with_capacity(cards.len());
+    let mut left = std::mem::take(cards);
+
+    while !left.is_empty() {
+        let n = left.len();
+        if n == 1 {
+            mixed.extend(left.drain(..));
+            break;
+        }
+        let jitter = (left.len() / 10).max(1);
+        let jitter_hi = ((n.saturating_sub(2)) as isize).max(1);
+
+        let min_cut = rng
+            .next_range(-(jitter as isize)..=(jitter as isize))
+            .clamp(-(jitter_hi as isize), jitter_hi as isize) as isize;
+        let max_cut = rng
+            .next_range(-(jitter as isize)..=(jitter as isize))
+            .clamp(-(jitter_hi as isize), jitter_hi as isize) as isize;
+
+        let mut chunk_min = (min_chunk as isize + min_cut).clamp(1, n as isize) as usize;
+        let mut chunk_max = (max_chunk as isize + max_cut).clamp(1, n as isize) as usize;
+        chunk_min = chunk_min.min(n);
+        chunk_max = chunk_max.min(n);
+        if chunk_min > chunk_max {
+            std::mem::swap(&mut chunk_min, &mut chunk_max);
+        }
+
+        let take_n = rng.next_range(chunk_min as isize..=chunk_max as isize) as usize;
+        let start = left.len() - take_n;
+        mixed.extend(left.drain(start..));
+    }
+
+    *cards = mixed;
+}

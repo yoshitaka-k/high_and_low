@@ -1,0 +1,11 @@
+[package]
+name = "high_and_low"
+version = "0.1.0"
+edition = "2024"
+authors = ["yoshitaka-k"]
+description = "High & Low"
+
+[dependencies]
+color-eyre = "0.6.5"
+getset = "0.1.6"
+ratatui = "0.30.0"
