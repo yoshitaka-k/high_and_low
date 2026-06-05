@@ -1,11 +1,11 @@
 use crate::trump::constants::{
-    SUIT_STR_HART,
+    SUIT_STR_HEART,
     SUIT_STR_DIAMOND,
     SUIT_STR_CLOVER,
     SUIT_STR_SPADE,
     SUIT_STR_JOKER,
 
-    SUIT_ICON_HART,
+    SUIT_ICON_HEART,
     SUIT_ICON_DIAMOND,
     SUIT_ICON_CLOVER,
     SUIT_ICON_SPADE,
@@ -34,7 +34,7 @@ use crate::trump::constants::{
 /// カードのスートを管理する列挙型
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Suit {
-    Hart,
+    Heart,
     Diamond,
     Clover,
     Spade,
@@ -45,7 +45,7 @@ impl Suit {
     /// 文字列からスートを取得する
     pub fn from_str(suit: &str) -> Self {
         match suit {
-            SUIT_STR_HART => Self::Hart,
+            SUIT_STR_HEART => Self::Heart,
             SUIT_STR_DIAMOND => Self::Diamond,
             SUIT_STR_CLOVER => Self::Clover,
             SUIT_STR_SPADE => Self::Spade,
@@ -57,7 +57,7 @@ impl Suit {
     /// スートを文字列に変換する
     pub fn as_str(self) -> &'static str {
         match self {
-            Self::Hart => SUIT_STR_HART,
+            Self::Heart => SUIT_STR_HEART,
             Self::Diamond => SUIT_STR_DIAMOND,
             Self::Clover => SUIT_STR_CLOVER,
             Self::Spade => SUIT_STR_SPADE,
@@ -68,7 +68,7 @@ impl Suit {
     /// スートのアイコンを取得する
     fn icon(self) -> &'static str {
         match self {
-            Self::Hart => SUIT_ICON_HART,
+            Self::Heart => SUIT_ICON_HEART,
             Self::Diamond => SUIT_ICON_DIAMOND,
             Self::Clover => SUIT_ICON_CLOVER,
             Self::Spade => SUIT_ICON_SPADE,
@@ -125,7 +125,7 @@ impl Card {
     /// 手札表示用の並び: スート（h → d → c → s → j）、同スート内はランクの数値順。
     pub fn sort_tuple(&self) -> (u8, u16) {
         let suit = match self.suit {
-            Suit::Hart => 0,
+            Suit::Heart => 0,
             Suit::Diamond => 1,
             Suit::Clover => 2,
             Suit::Spade => 3,

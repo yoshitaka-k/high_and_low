@@ -6,3 +6,4 @@ pub mod app;
 pub mod update;
 pub mod trump;
 pub mod game;
+pub mod rendar;

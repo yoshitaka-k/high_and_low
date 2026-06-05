@@ -32,6 +32,7 @@ pub fn tick_update(app: &mut App) {
     } else {
         if let Some(card) = app.game_mut().deck_mut().draw() {
             app.text = format!("drew: {}", card);
+            app.game_mut().set_card(Some(card));
         } else {
             app.start();
         }

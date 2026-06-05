@@ -1,12 +1,12 @@
 /// スート文字
-pub const SUIT_STR_HART: &str = "h";
+pub const SUIT_STR_HEART: &str = "h";
 pub const SUIT_STR_DIAMOND: &str = "d";
 pub const SUIT_STR_CLOVER: &str = "c";
 pub const SUIT_STR_SPADE: &str = "s";
 pub const SUIT_STR_JOKER: &str = "j";
 
 /// スート記号
-pub const SUIT_ICON_HART: &str = "♥";
+pub const SUIT_ICON_HEART: &str = "♥";
 pub const SUIT_ICON_DIAMOND: &str = "♦";
 pub const SUIT_ICON_CLOVER: &str = "♣";
 pub const SUIT_ICON_SPADE: &str = "♠";

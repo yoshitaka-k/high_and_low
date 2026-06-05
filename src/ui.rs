@@ -11,6 +11,14 @@ use ratatui::{
 };
 
 use crate::app::App;
+use crate::trump::Suit;
+use crate::rendar::trump::{
+    diamond::Diamond,
+    heart::Heart,
+    spade::Spade,
+    clover::Clover,
+    joker::Joker,
+};
 
 /// UI を描画する
 pub fn render(frame: &mut Frame, app: &mut App) {
@@ -35,12 +43,58 @@ pub fn render(frame: &mut Frame, app: &mut App) {
 /// キャンバスを描画する
 fn render_canvas(frame: &mut Frame, area: Rect, app: &mut App) {
     let canvas = Canvas::default()
-        .x_bounds([0.0, area.width as f64])
-        .y_bounds([0.0, area.height as f64])
+        .x_bounds([-180.0, 180.0])
+        .y_bounds([-90.0, 90.0])
         .marker(Marker::Braille)
         .paint(|ctx| {
-            ctx.draw(&Rectangle::new(8.0, area.height as f64 - 8.0, 10.0, 7.0, Color::White));
-            ctx.print(10.0, area.height as f64 - 5.0, app.text.to_string());
+            ctx.draw(&Rectangle::new(-25.0, -25.0, 50.0, 50.0, Color::White));
+            ctx.print(-7.0, -22.0, app.text.to_string());
+            ctx.layer();
+
+            if let Some(card) = app.game().card() {
+                match card.suit() {
+                    Suit::Heart => {
+                        ctx.draw(&Heart {
+                            x: 0.0,
+                            y: 5.0,
+                            size: 15.0,
+                            color: Color::White,
+                        });
+                    }
+                    Suit::Diamond => {
+                        ctx.draw(&Diamond {
+                            x: 0.0,
+                            y: 5.0,
+                            size: 15.0,
+                            color: Color::White,
+                        });
+                    }
+                    Suit::Clover => {
+                        ctx.draw(&Clover {
+                            x: 0.0,
+                            y: 5.0,
+                            size: 15.0,
+                            color: Color::White,
+                        });
+                    }
+                    Suit::Spade => {
+                        ctx.draw(&Spade {
+                            x: 0.0,
+                            y: 5.0,
+                            size: 15.0,
+                            color: Color::White,
+                        });
+                    }
+                    Suit::Joker => {
+                        ctx.draw(&Joker {
+                            x: 0.0,
+                            y: 5.0,
+                            size: 15.0,
+                            color: Color::White,
+                        });
+                    }
+                }
+            }
         });
 
     frame.render_widget(canvas, area);

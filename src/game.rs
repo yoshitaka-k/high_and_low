@@ -1,12 +1,14 @@
 use getset::{Getters, MutGetters, Setters};
 
-use crate::trump::{Deck, shuffle::{ShufflePhase, ShuffleRunner}};
+use crate::trump::{Card, Deck, shuffle::{ShufflePhase, ShuffleRunner}};
 
 /// ゲームの状態
 #[derive(Default, Getters, MutGetters, Setters)]
 pub struct Game {
     #[getset(get = "pub", get_mut = "pub")]
     deck: Deck,
+    #[getset(get = "pub", get_mut = "pub", set = "pub")]
+    card: Option<Card>,
     shuffle: Option<ShuffleRunner>,
     pending_phase_advance_ticks: Option<u8>,
 }
@@ -16,6 +18,7 @@ impl Game {
     pub fn new() -> Self {
         Self {
             deck: Deck::new(),
+            card: None,
             shuffle: None,
             pending_phase_advance_ticks: None,
         }

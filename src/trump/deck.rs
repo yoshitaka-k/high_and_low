@@ -13,7 +13,7 @@ impl Deck {
     pub fn new() -> Self {
         let mut cards = Vec::new();
 
-        for suit in [Suit::Hart, Suit::Diamond, Suit::Clover, Suit::Spade] {
+        for suit in [Suit::Heart, Suit::Diamond, Suit::Clover, Suit::Spade] {
             for rank in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] {
                 cards.push(Card::new(suit, rank));
             }
