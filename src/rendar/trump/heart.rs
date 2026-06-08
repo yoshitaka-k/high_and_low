@@ -10,14 +10,20 @@ pub struct Heart {
 }
 
 /// ハート図形を描画する
+///
+/// `(x, y)` は外接矩形の中心を表す。
 impl Shape for Heart {
     fn draw(&self, painter: &mut Painter) {
-        let right_x = self.x + self.size;
-        let right_y = self.y;
-        let bottom_x = self.x;
-        let bottom_y = self.y - self.size;
-        let left_x = self.x - self.size;
-        let left_y = self.y;
+        let cx = self.x;
+        let cy = self.y;
+        let waist_y = cy + self.size * 0.16;
+
+        let right_x = cx + self.size;
+        let right_y = waist_y;
+        let bottom_x = cx;
+        let bottom_y = waist_y - self.size;
+        let left_x = cx - self.size;
+        let left_y = waist_y;
 
         let radius = self.size * 0.48;
 

@@ -27,19 +27,22 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
 
 /// 1 tick 進める
 pub fn tick_update(app: &mut App) {
-    if app.game().is_shuffling() {
-        app.text = "shuffling".to_string();
-    } else {
-        if let Some(card) = app.game_mut().deck_mut().draw() {
-            app.text = format!("drew: {}", card);
-            app.game_mut().set_card(Some(card));
+    if !app.game.is_shuffling() {
+        app.current = (app.current + 1) % 2;
+
+        if let Some(card) = app.game.deck_mut().draw() {
+            if app.current == 0 {
+                app.dealer_card = Some(card);
+            } else {
+                app.player_card = Some(card);
+            }
         } else {
             app.start();
         }
     }
 
     // 次のフェーズへ進むタイミングなら、次のフェーズへ進む
-    if app.game_mut().tick() {
+    if app.game.tick() {
         app.advance_phase();
     }
 }

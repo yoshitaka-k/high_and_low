@@ -1,12 +1,16 @@
 use getset::{Getters, MutGetters, Setters};
 use crate::game::Game;
+use crate::rendar::block_position::BlockPosition;
+use crate::trump::Card;
 
 #[derive(Default, Getters, MutGetters, Setters)]
 pub struct App {
-    #[getset(get = "pub", get_mut = "pub")]
-    game: Game,
+    pub game: Game,
+    pub positions: BlockPosition,
     pub should_quit: bool,
-    pub text: String,
+    pub current: usize,
+    pub dealer_card: Option<Card>,
+    pub player_card: Option<Card>,
 }
 
 impl App {
@@ -14,13 +18,19 @@ impl App {
     pub fn new() -> Self {
         Self {
             game: Game::new(),
+            positions: BlockPosition::default(),
             should_quit: false,
-            text: String::new(),
+            current: 0,
+            dealer_card: None,
+            player_card: None,
         }
     }
 
     /// ゲームを開始する
     pub fn start(&mut self) {
+        self.current = 0;
+        self.dealer_card = None;
+        self.player_card = None;
         self.game.start();
     }
 

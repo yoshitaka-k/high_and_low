@@ -10,6 +10,8 @@ pub struct Joker {
 }
 
 /// ジョーカー図形を描画する
+///
+/// `(x, y)` は図形の中心を表す。
 impl Shape for Joker {
     fn draw(&self, painter: &mut Painter) {
         Points::new(&[(self.x, self.y)], self.color).draw(painter);

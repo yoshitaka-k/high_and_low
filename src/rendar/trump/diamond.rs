@@ -10,16 +10,21 @@ pub struct Diamond {
 }
 
 /// ダイアモンド図形を描画する
+///
+/// `(x, y)` は外接矩形の中心を表す。
 impl Shape for Diamond {
     fn draw(&self, painter: &mut Painter) {
-        let top_x = self.x;
-        let top_y = self.y + self.size;
-        let right_x = self.x + self.size;
-        let right_y = self.y;
-        let bottom_x = self.x;
-        let bottom_y = self.y - self.size;
-        let left_x = self.x - self.size;
-        let left_y = self.y;
+        let cx = self.x;
+        let cy = self.y;
+
+        let top_x = cx;
+        let top_y = cy + self.size;
+        let right_x = cx + self.size;
+        let right_y = cy;
+        let bottom_x = cx;
+        let bottom_y = cy - self.size;
+        let left_x = cx - self.size;
+        let left_y = cy;
 
         let lines = [
             Line::new(left_x, left_y, top_x, top_y, self.color),
