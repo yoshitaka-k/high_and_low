@@ -1,19 +1,26 @@
-use ratatui::crossterm::event::{
-    KeyCode,
-    KeyEvent,
-    KeyModifiers,
-    MouseEvent,
-    MouseEventKind,
-    MouseButton,
-};
 use crate::app::App;
+use crate::app::CurrentScreen;
+use ratatui::crossterm::event::{
+    KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
+};
 
 /// キーイベントを処理する関数
 pub fn key_update(app: &mut App, key_event: KeyEvent) {
-    match key_event.code {
-        KeyCode::Esc | KeyCode::Char('q') => app.quit(),
-        KeyCode::Char('c') | KeyCode::Char('C') if key_event.modifiers == KeyModifiers::CONTROL => app.quit(),
-        _ => {}
+    match app.current_screen {
+        CurrentScreen::Exiting => match key_event.code {
+            KeyCode::Enter | KeyCode::Char('y') => app.should_quit = true,
+            KeyCode::Esc | KeyCode::Char('n') => app.current_screen = CurrentScreen::Main,
+            _ => {}
+        },
+        _ => match key_event.code {
+            KeyCode::Esc | KeyCode::Char('q') => app.current_screen = CurrentScreen::Exiting,
+            KeyCode::Char('c') | KeyCode::Char('C')
+                if key_event.modifiers == KeyModifiers::CONTROL =>
+            {
+                app.current_screen = CurrentScreen::Exiting;
+            }
+            _ => {}
+        },
     }
 }
 

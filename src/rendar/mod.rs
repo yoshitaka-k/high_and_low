@@ -1,3 +1,8 @@
-pub mod canvas;
-pub mod trump;
 pub mod block_position;
+pub mod canvas;
+pub mod content;
+pub mod content_block;
+pub mod footer;
+pub mod header;
+pub mod popup;
+pub mod trump;

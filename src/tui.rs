@@ -61,7 +61,7 @@ impl Tui {
 
     /// UI を描画する
     pub fn draw(&mut self, app: &mut App) -> Result<()> {
-        self.terminal.draw(|frame| ui::render(frame, &*app))?;
+        self.terminal.draw(|frame| ui::render(frame, app))?;
         Ok(())
     }
 }

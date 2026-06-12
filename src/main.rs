@@ -1,16 +1,18 @@
 use color_eyre::Result;
-use ratatui::{backend::CrosstermBackend, Terminal};
+use ratatui::{Terminal, backend::CrosstermBackend};
 
 use high_and_low::constants::TICK_RATE_MILLIS;
 use high_and_low::{
     app::App,
-    tui::Tui,
     event::{Event, EventHandler},
+    tui::Tui,
     update::{key_update, mouse_update, tick_update},
 };
 
 fn main() -> Result<()> {
     let mut app = App::new();
+    app.header_text = "Trump game High and Low";
+
     app.start();
 
     let backend = CrosstermBackend::new(std::io::stderr());

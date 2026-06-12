@@ -1,57 +1,39 @@
 use ratatui::{
-    layout::{Constraint, Layout},
-    text::Text,
     Frame,
+    layout::{Constraint, Layout},
 };
 
-use crate::app::App;
-use crate::rendar::canvas::{
-    suit_drawing::{SuitRectangle, suit_drawing},
-};
-
-const CARD_RECT: SuitRectangle = SuitRectangle {
-    x: -25.0,
-    y: 0.0,
-    width: 50.0,
-    height: 50.0,
+use crate::app::{App, CurrentScreen};
+use crate::rendar::{
+    content::render_content, footer::render_footer, header::render_header,
+    popup::exiting::render_exiting,
 };
 
 /// UI を描画する
-pub fn render(frame: &mut Frame, app: &App) {
+pub fn render(frame: &mut Frame, app: &mut App) {
+    // レイアウト定義
     let vertical = Layout::vertical([
-        Constraint::Length(1),
+        Constraint::Length(3),
         Constraint::Fill(1),
-        Constraint::Length(1),
-    ]).spacing(1);
-    let horizontal = Layout::horizontal([
-        Constraint::Percentage(100)
-    ]).spacing(1);
+        Constraint::Length(3),
+    ])
+    .spacing(1);
 
-    let [top, main, _bottom] = frame.area().layout(&vertical);
-    let [area] = main.layout(&horizontal);
+    // 全体のレイアウト分割
+    let [top, main, bottom] = frame.area().layout(&vertical);
 
-    let text = Text::from(if let Some(phase) = app.game.shuffle_phase_label() {
-        format!("shuffling: {}", phase)
-    } else {
-        "shuffle finished".to_string()
-    });
+    // header のレンダリング
+    render_header(frame, top, app);
 
-    frame.render_widget(text, top);
+    match app.current_screen {
+        CurrentScreen::Main => {
+            render_content(frame, main, app);
+        }
+        CurrentScreen::Exiting => {
+            render_exiting(frame);
+        }
+    }
 
-    let dealer_rect = SuitRectangle { y: -30.0, ..CARD_RECT };
-    let player_rect = SuitRectangle { y: 40.0, ..CARD_RECT };
-
-    let dealer_label = app.dealer_card.as_ref()
-        .map(|c| format!("dealer: {c}"))
-        .unwrap_or_else(|| "dealer".to_string());
-    let player_label = app.player_card.as_ref()
-        .map(|c| format!("player: {c}"))
-        .unwrap_or_else(|| "player".to_string());
-
-    suit_drawing(
-        frame,
-        area,
-        (&dealer_rect, dealer_label, app.dealer_card.as_ref()),
-        (&player_rect, player_label, app.player_card.as_ref()),
-    );
+    // footer のレンダリング
+    render_footer(frame, bottom, app);
 }
