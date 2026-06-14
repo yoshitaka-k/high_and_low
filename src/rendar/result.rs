@@ -8,6 +8,7 @@ use ratatui::{
 use figlet_rs::FIGlet;
 
 use crate::app::App;
+use crate::game::ResultLabel;
 
 /// 結果をレンダリングする
 pub fn render_result(frame: &mut Frame, area: Rect, app: &mut App) {
@@ -25,7 +26,11 @@ pub fn render_result(frame: &mut Frame, area: Rect, app: &mut App) {
 
     let result_paragraph = Paragraph::new(Text::from(result_text))
         .alignment(Alignment::Center)
-        .style(Style::default().fg(Color::Green));
+        .style(Style::default().fg(match app.game.player_card_diff() {
+            ResultLabel::Win => Color::Green,
+            ResultLabel::Lose => Color::Red,
+            _ => Color::Yellow,
+        }));
 
     frame.render_widget(result_paragraph, result);
 
@@ -34,7 +39,11 @@ pub fn render_result(frame: &mut Frame, area: Rect, app: &mut App) {
     );
     let message_paragraph = Paragraph::new(Text::from(message_text))
         .alignment(Alignment::Center)
-        .style(Style::default().fg(Color::Green));
+        .style(Style::default().fg(match app.game.player_card_diff() {
+            ResultLabel::Win => Color::Green,
+            ResultLabel::Lose => Color::Red,
+            _ => Color::Yellow,
+        }));
 
     frame.render_widget(message_paragraph, message);
 

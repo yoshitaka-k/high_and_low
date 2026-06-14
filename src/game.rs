@@ -11,6 +11,13 @@ pub enum PlayerChoice {
     Low,
 }
 
+/// 勝敗結果の表示ラベル
+pub enum ResultLabel {
+    Win,
+    Lose,
+    Draw,
+}
+
 /// ゲームの状態
 #[derive(Default, Getters, MutGetters, Setters)]
 pub struct Game {
@@ -124,19 +131,27 @@ impl Game {
         }
     }
 
-    /// 勝敗結果の表示ラベルを返す
-    pub fn result_label(&self) -> &'static str {
+    /// プレイヤーのカードとディーラーのカードのランクの大小関係を返す
+    pub fn player_card_diff(&self) -> ResultLabel {
         let (Some(dealer), Some(player), Some(choice)) =
             (self.dealer_card(), self.player_card(), self.choice())
         else {
-            return "Draw!";
+            return ResultLabel::Draw;
         };
-
         match player.rank_diff(dealer).cmp(&0) {
-            Ordering::Equal => "Draw!",
-            Ordering::Greater if *choice == PlayerChoice::High => "You win!",
-            Ordering::Less if *choice == PlayerChoice::Low => "You win!",
-            _ => "You lose!",
+            Ordering::Equal => ResultLabel::Draw,
+            Ordering::Greater if *choice == PlayerChoice::High => ResultLabel::Win,
+            Ordering::Less if *choice == PlayerChoice::Low => ResultLabel::Lose,
+            _ => ResultLabel::Draw,
+        }
+    }
+
+    /// 勝敗結果の表示ラベルを返す
+    pub fn result_label(&self) -> &'static str {
+        match self.player_card_diff() {
+            ResultLabel::Win => "You win!",
+            ResultLabel::Lose => "You lose!",
+            ResultLabel::Draw => "Draw!",
         }
     }
 }
