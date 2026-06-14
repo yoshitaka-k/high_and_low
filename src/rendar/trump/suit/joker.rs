@@ -10,6 +10,7 @@ pub struct Joker {
 }
 
 /// ジョーカー図形を描画する
+/// 描画が面倒なので、まだ実装していない
 ///
 /// `(x, y)` は図形の中心を表す。
 impl Shape for Joker {

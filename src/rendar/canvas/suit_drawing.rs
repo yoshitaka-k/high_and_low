@@ -1,52 +1,21 @@
 use ratatui::{
-    Frame,
-    layout::Rect,
     style::Color,
-    symbols::Marker,
-    widgets::canvas::{Canvas, Context, Rectangle},
+    widgets::canvas::{Context},
 };
 
-use crate::rendar::trump::{
+use crate::rendar::trump::suit::{
     clover::Clover, diamond::Diamond, heart::Heart, joker::Joker, spade::Spade,
 };
-use crate::trump::{Card, Suit};
+use crate::trump::Card;
+use crate::trump::card::Suit;
+use crate::rendar::canvas::card_drawing::CardRectangle;
 
-/// カードの矩形定義デフォルト値
-pub const CARD_RECT: SuitRectangle = SuitRectangle {
-    x: -25.0,
-    y: 0.0,
-    width: 50.0,
-    height: 50.0,
-};
-
-/// カードの矩形定義
-pub struct SuitRectangle {
-    pub x: f64,
-    pub y: f64,
-    pub width: f64,
-    pub height: f64,
-}
-
-/// カードを描画する
-fn paint_card(
+/// スートを描画する
+pub(crate) fn suit_drawing(
     ctx: &mut Context<'_>,
-    rectangle: &SuitRectangle,
-    label: String,
+    rectangle: &CardRectangle,
     card: Option<&Card>,
 ) {
-    let rank_x = rectangle.x + rectangle.width / 2.7;
-    let rank_y = rectangle.y + 3.0;
-
-    ctx.draw(&Rectangle::new(
-        rectangle.x,
-        rectangle.y,
-        rectangle.width,
-        rectangle.height,
-        Color::White,
-    ));
-    ctx.print(rank_x, rank_y, label);
-
-    ctx.layer();
 
     let suit_x = rectangle.x + rectangle.width / 3.0;
     let suit_y = rectangle.y + rectangle.height / 1.5;
@@ -87,21 +56,4 @@ fn paint_card(
             }),
         }
     }
-}
-
-/// カードを1枚描画する
-pub fn suit_drawing(
-    frame: &mut Frame,
-    area: Rect,
-    card: (&SuitRectangle, String, Option<&Card>),
-) {
-    let canvas = Canvas::default()
-        .x_bounds([-90.0, 90.0])
-        .y_bounds([-90.0, 90.0])
-        .marker(Marker::Braille)
-        .paint(|ctx| {
-            paint_card(ctx, card.0, card.1.clone(), card.2);
-        });
-
-    frame.render_widget(canvas, area);
 }

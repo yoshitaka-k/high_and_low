@@ -5,7 +5,7 @@ use ratatui::{
 
 use crate::app::App;
 use crate::rendar::{
-    canvas::suit_drawing::{CARD_RECT, suit_drawing},
+    canvas::card_drawing::{CARD_RECT, card_drawing},
 };
 
 /// フィールドをレンダリングする
@@ -30,13 +30,13 @@ pub fn render_field(frame: &mut Frame, area: Rect, app: &App) {
         .unwrap_or_else(|| "player".to_string());
 
     // ディーラーとプレイヤーのカードを描画する
-    suit_drawing(
+    card_drawing(
         frame,
         dealer,
         (&CARD_RECT, dealer_label, app.game.dealer_card().as_ref()),
     );
 
-    suit_drawing(
+    card_drawing(
         frame,
         player,
         (&CARD_RECT, player_label, app.game.player_card().as_ref()),
