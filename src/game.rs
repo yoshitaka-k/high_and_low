@@ -1,14 +1,30 @@
+use std::cmp::Ordering;
+
 use getset::{Getters, MutGetters, Setters};
 
 use crate::trump::{Card, Deck, shuffle::{ShufflePhase, ShuffleRunner}};
+
+/// プレイヤーの選択
+#[derive(PartialEq)]
+pub enum PlayerChoice {
+    High,
+    Low,
+}
 
 /// ゲームの状態
 #[derive(Default, Getters, MutGetters, Setters)]
 pub struct Game {
     #[getset(get = "pub", get_mut = "pub")]
     deck: Deck,
+
     #[getset(get = "pub", get_mut = "pub", set = "pub")]
-    card: Option<Card>,
+    dealer_card: Option<Card>,
+    #[getset(get = "pub", get_mut = "pub", set = "pub")]
+    player_card: Option<Card>,
+
+    #[getset(get = "pub", set = "pub")]
+    choice: Option<PlayerChoice>,
+
     shuffle: Option<ShuffleRunner>,
     pending_phase_advance_ticks: Option<u8>,
 }
@@ -18,10 +34,25 @@ impl Game {
     pub fn new() -> Self {
         Self {
             deck: Deck::new(),
-            card: None,
+
             shuffle: None,
             pending_phase_advance_ticks: None,
+
+            choice: None,
+
+            dealer_card: None,
+            player_card: None,
         }
+    }
+
+    /// 山札を用意して、シャッフルを開始する
+    pub fn start(&mut self) {
+        self.choice = None;
+        self.dealer_card = None;
+        self.player_card = None;
+
+        self.deck = Deck::new();
+        self.begin_shuffle();
     }
 
     /// シャッフル中かどうかを返す
@@ -37,12 +68,6 @@ impl Game {
             .as_ref()
             .and_then(|s| s.phase())
             .map(ShufflePhase::label)
-    }
-
-    /// 山札を用意して、シャッフルを開始する
-    pub fn start(&mut self) {
-        self.deck = Deck::new();
-        self.begin_shuffle();
     }
 
     /// シャッフルを開始する
@@ -96,6 +121,22 @@ impl Game {
     pub fn schedule_phase_advance(&mut self, delay_ticks: u8) {
         if self.pending_phase_advance_ticks.is_none() {
             self.pending_phase_advance_ticks = Some(delay_ticks);
+        }
+    }
+
+    /// 勝敗結果の表示ラベルを返す
+    pub fn result_label(&self) -> &'static str {
+        let (Some(dealer), Some(player), Some(choice)) =
+            (self.dealer_card(), self.player_card(), self.choice())
+        else {
+            return "Draw!";
+        };
+
+        match player.rank_diff(dealer).cmp(&0) {
+            Ordering::Equal => "Draw!",
+            Ordering::Greater if *choice == PlayerChoice::High => "You win!",
+            Ordering::Less if *choice == PlayerChoice::Low => "You win!",
+            _ => "You lose!",
         }
     }
 }

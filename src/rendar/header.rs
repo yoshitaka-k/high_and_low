@@ -16,7 +16,7 @@ pub fn render_header(frame: &mut Frame, area: Rect, app: &App) {
         .style(Style::default());
 
     let header = Paragraph::new(Text::styled(
-        app.header_text,
+        &app.header_text,
         Style::default().fg(Color::Green).bold(),
     ))
     .block(header_block);

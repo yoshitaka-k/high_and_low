@@ -7,4 +7,6 @@ pub struct BlockPosition {
     high: Rect,
     #[getset(get = "pub", set = "pub")]
     low: Rect,
+    #[getset(get = "pub", set = "pub")]
+    enter: Rect,
 }

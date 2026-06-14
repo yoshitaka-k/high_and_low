@@ -11,9 +11,7 @@ use high_and_low::{
 
 fn main() -> Result<()> {
     let mut app = App::new();
-    app.header_text = "Trump game High and Low";
-
-    app.start();
+    app.header_text = String::from("Trump game High and Low");
 
     let backend = CrosstermBackend::new(std::io::stderr());
     let terminal = Terminal::new(backend)?;
@@ -21,6 +19,8 @@ fn main() -> Result<()> {
     let mut tui = Tui::new(terminal, events);
 
     tui.enter()?;
+
+    tui.draw(&mut app)?;
 
     while !app.should_quit {
         match tui.events.next()? {

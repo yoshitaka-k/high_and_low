@@ -5,7 +5,10 @@ use ratatui::{
 
 use crate::app::{App, CurrentScreen};
 use crate::rendar::{
-    content::render_content, footer::render_footer, header::render_header,
+    header::render_header,
+    footer::render_footer,
+    content::render_content,
+    result::render_result,
     popup::exiting::render_exiting,
 };
 
@@ -28,6 +31,9 @@ pub fn render(frame: &mut Frame, app: &mut App) {
     match app.current_screen {
         CurrentScreen::Main => {
             render_content(frame, main, app);
+        }
+        CurrentScreen::Result => {
+            render_result(frame, main, app);
         }
         CurrentScreen::Exiting => {
             render_exiting(frame);

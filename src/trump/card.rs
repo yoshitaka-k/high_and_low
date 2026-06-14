@@ -153,6 +153,11 @@ impl Card {
         }
     }
 
+    /// カードのランクの差を計算する
+    pub fn rank_diff(&self, other: &Card) -> isize {
+        self.calc_rank() as isize - other.calc_rank() as isize
+    }
+
     /// カードのスートを表示する
     pub fn disp_suit(&self) -> &'static str {
         self.suit.icon()

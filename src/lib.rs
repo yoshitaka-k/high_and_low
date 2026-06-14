@@ -7,6 +7,7 @@ pub mod trump;
 pub mod tui;
 pub mod ui;
 pub mod update;
+pub mod handle;
 
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 

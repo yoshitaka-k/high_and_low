@@ -4,6 +4,18 @@ use ratatui::crossterm::event::{
     KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
 };
 
+use crate::app::GamePhase;
+use crate::handle::mouse_actions::{
+    main_mouse_left::handle_main_mouse_left,
+    result_mouse_left::handle_result_mouse_left,
+};
+use crate::handle::tick::{
+    deal::tick_deal,
+    shuffle::tick_shuffle,
+    setup::tick_setup,
+    result::tick_result,
+};
+
 /// キーイベントを処理する関数
 pub fn key_update(app: &mut App, key_event: KeyEvent) {
     match app.current_screen {
@@ -27,25 +39,36 @@ pub fn key_update(app: &mut App, key_event: KeyEvent) {
 /// マウスイベントを処理する関数
 pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
     match mouse_event.kind {
-        MouseEventKind::Up(MouseButton::Right) => app.quit(),
+        // 左クリックされたときの処理
+        MouseEventKind::Up(MouseButton::Left) => {
+            match app.current_screen {
+                CurrentScreen::Main => handle_main_mouse_left(app, mouse_event),
+                CurrentScreen::Result => handle_result_mouse_left(app),
+                _ => {}
+            }
+        }
+
+        // 右クリックされたときの処理
+        MouseEventKind::Up(MouseButton::Right) => {
+            match app.current_screen {
+                CurrentScreen::Exiting => {
+                    app.current_screen = CurrentScreen::Main;
+                }
+                _ => {}
+            }
+        }
         _ => {}
     }
 }
 
 /// 1 tick 進める
 pub fn tick_update(app: &mut App) {
-    if !app.game.is_shuffling() {
-        app.current = (app.current + 1) % 2;
-
-        if let Some(card) = app.game.deck_mut().draw() {
-            if app.current == 0 {
-                app.dealer_card = Some(card);
-            } else {
-                app.player_card = Some(card);
-            }
-        } else {
-            app.start();
-        }
+    match app.current_phase {
+        GamePhase::Setup => tick_setup(app),
+        GamePhase::Shuffle => tick_shuffle(app),
+        GamePhase::Deal => tick_deal(app),
+        GamePhase::Result => tick_result(app),
+        _ => {}
     }
 
     // 次のフェーズへ進むタイミングなら、次のフェーズへ進む

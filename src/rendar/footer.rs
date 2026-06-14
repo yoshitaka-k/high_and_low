@@ -6,7 +6,7 @@ use ratatui::{
     widgets::{Block, Borders, Padding, Paragraph},
 };
 
-use crate::app::{App, CurrentScreen};
+use crate::app::{App, CurrentScreen, GamePhase};
 
 /// フッターをレンダリングする
 pub fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
@@ -30,6 +30,9 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
             CurrentScreen::Main => {
                 Span::styled("Game Playing", Style::default().fg(Color::Green).bold())
             }
+            CurrentScreen::Result => {
+                Span::styled("Result", Style::default().fg(Color::Green).bold())
+            }
             CurrentScreen::Exiting => {
                 Span::styled("Exiting", Style::default().fg(Color::LightRed).bold())
             }
@@ -38,7 +41,14 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
         Span::styled(" | ", Style::default().fg(Color::White)),
         {
             Span::styled(
-                format!("{}", app.footer_text),
+                format!("{}", match app.current_phase {
+                    GamePhase::Setup => "Setup Phase",
+                    GamePhase::Shuffle => "Shuffle Phase",
+                    GamePhase::Deal => "Deal Phase",
+                    GamePhase::Play => "Play Phase",
+                    GamePhase::Result => "Result Phase",
+                    GamePhase::End => "End Phase",
+                }),
                 Style::default().fg(Color::DarkGray),
             )
         },

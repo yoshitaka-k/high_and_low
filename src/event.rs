@@ -74,6 +74,11 @@ impl EventHandler {
                                 .send(Event::Key(key))
                                 .expect("failed to send terminal event");
                         }
+                        if let Some(mouse) = pending_mouse.take() {
+                            sender
+                                .send(Event::Mouse(mouse))
+                                .expect("failed to send terminal event");
+                        }
                         sender
                             .send(Event::Tick)
                             .expect("failed to send terminal event");

@@ -1,6 +1,7 @@
 use ratatui::{
     Frame,
-    layout::{Constraint, Layout, Rect},
+    layout::{Constraint, Layout, Rect, Alignment},
+    style::{Color, Style},
     widgets::{Block, Borders, Padding, Paragraph},
 };
 
@@ -10,23 +11,50 @@ use crate::app::App;
 pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
     // ボタンのレイアウト
     let vertical =
-        Layout::vertical([Constraint::Percentage(50), Constraint::Percentage(50)]).spacing(1);
-    let [top, bottom] = area.layout(&vertical);
+        Layout::vertical([
+            Constraint::Fill(1),
+            Constraint::Length(5),
+            Constraint::Length(5),
+            Constraint::Fill(1),
+        ]);
+        // .spacing(1);
+    let [top, disp, enter, bottom] = area.layout(&vertical);
 
     // ボタンスタイル
     let high_block = Block::new()
         .borders(Borders::ALL)
-        .padding(Padding::horizontal(1));
-    let low_block = Block::new()
+        .padding(Padding::horizontal(1))
+        .style(Style::default().fg(Color::Green));
+    let disp_block = Block::new()
+        .title("Disp")
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1));
+    let enter_block = Block::new()
+        .borders(Borders::ALL)
+        .padding(Padding::horizontal(1))
+        .style(Style::default().fg(Color::Cyan));
+    let low_block = Block::new()
+        .borders(Borders::ALL)
+        .padding(Padding::horizontal(1))
+        .style(Style::default().fg(Color::Yellow));
 
-    let high = Paragraph::new("high").block(high_block);
-    let low = Paragraph::new("low").block(low_block);
+    // ディスプレイテキストを取得
+    let disp_text = app.disp_text.as_str();
 
-    frame.render_widget(high, top);
-    frame.render_widget(low, bottom);
+    // ボタンをレンダリング
+    let high_paraph = Paragraph::new("High").block(high_block);
+    let disp_paraph = Paragraph::new(disp_text).block(disp_block).alignment(Alignment::Center);
+    let low_paraph = Paragraph::new("Low").block(low_block);
+    let enter_paraph = Paragraph::new("Enter").block(enter_block);
 
+    // ボタンを描画
+    frame.render_widget(high_paraph, top);
+    frame.render_widget(disp_paraph, disp);
+    frame.render_widget(enter_paraph, enter);
+    frame.render_widget(low_paraph, bottom);
+
+    // ボタンの位置を設定
     app.positions.set_high(top);
+    app.positions.set_enter(enter);
     app.positions.set_low(bottom);
 }
