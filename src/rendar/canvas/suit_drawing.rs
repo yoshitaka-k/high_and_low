@@ -7,7 +7,7 @@ use crate::rendar::trump::suit::{
     clover::Clover, diamond::Diamond, heart::Heart, joker::Joker, spade::Spade,
 };
 use crate::trump::Card;
-use crate::trump::card::Suit;
+use crate::trump::card_enum::suit::Suit;
 use crate::rendar::canvas::card_drawing::CardRectangle;
 
 /// スートを描画する
