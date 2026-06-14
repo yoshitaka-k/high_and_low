@@ -17,12 +17,20 @@ pub(crate) fn suit_drawing(
     card: Option<&Card>,
 ) {
 
+    // 左上辺りにスートを描画する
     let suit_x = rectangle.x + rectangle.width / 3.0;
-    let suit_y = rectangle.y + rectangle.height / 1.5;
-    let suit_size = rectangle.width.min(rectangle.height) * 0.23;
+    let suit_y = rectangle.y + rectangle.height / 1.4;
+    let suit_size = rectangle.width.min(rectangle.height) * 0.21;
 
     if let Some(card) = card {
-        let color = Color::White;
+        let color = match card.suit() {
+            Suit::Heart => Color::Red,
+            Suit::Diamond => Color::Red,
+            Suit::Clover => Color::DarkGray,
+            Suit::Spade => Color::DarkGray,
+            Suit::Joker => Color::Reset,
+        };
+
         match card.suit() {
             Suit::Heart => ctx.draw(&Heart {
                 x: suit_x,
