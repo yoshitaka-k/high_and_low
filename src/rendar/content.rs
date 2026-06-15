@@ -9,7 +9,10 @@ use crate::{app::App, rendar::content_block::buttons::render_buttons};
 /// コンテンツをレンダリングする
 pub fn render_content(frame: &mut Frame, area: Rect, app: &mut App) {
     let horizontal =
-        Layout::horizontal([Constraint::Percentage(100), Constraint::Length(25)]).spacing(1);
+        Layout::horizontal([
+            Constraint::Fill(1),
+            Constraint::Length(25)
+        ]).spacing(1);
     let [main, button] = area.layout(&horizontal);
 
     // フィールドのレンダリング

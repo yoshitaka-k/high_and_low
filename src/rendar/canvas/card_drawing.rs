@@ -1,8 +1,9 @@
 use ratatui::{
     Frame,
-    layout::Rect,
+    layout::{Rect, Constraint, Layout, Alignment},
     style::Color,
     symbols::Marker,
+    widgets::{Block, Borders, Paragraph, Padding},
     widgets::canvas::{Canvas, Context, Rectangle, Line},
 };
 
@@ -12,6 +13,11 @@ use crate::rendar::canvas::{
     suit_drawing::suit_drawing,
     rank_drawing::rank_drawing,
 };
+
+/// 描画範囲のX軸の範囲
+const X_BOUNDS: [f64; 2] = [-40.0, 80.0];
+/// 描画範囲のY軸の範囲
+const Y_BOUNDS: [f64; 2] = [-40.0, 70.0];
 
 /// カードの矩形定義デフォルト値
 pub const CARD_RECT: CardRectangle = CardRectangle {
@@ -42,7 +48,7 @@ fn paint_card(
         rectangle.y,
         rectangle.width,
         rectangle.height,
-        Color::White,
+        Color::Reset,
     ));
 
     ctx.layer();
@@ -72,13 +78,28 @@ pub fn card_drawing(
     area: Rect,
     card: (&CardRectangle, CurrentCard, Option<&Card>),
 ) {
+    let vertical = Layout::vertical([
+        Constraint::Length(3),
+        Constraint::Fill(1),
+    ]);
+    let [name_area, canvas_area] = area.layout(&vertical);
+
+    let name = Paragraph::new(match card.1 {
+        CurrentCard::Dealer => "Dealer Card",
+        CurrentCard::Player => "Player Card",
+    })
+    .alignment(Alignment::Center)
+    .block(Block::default().borders(Borders::ALL).padding(Padding::horizontal(1)));
+
+    frame.render_widget(name, name_area);
+
     let canvas = Canvas::default()
-        .x_bounds([-90.0, 90.0])
-        .y_bounds([-90.0, 90.0])
+        .x_bounds(X_BOUNDS)
+        .y_bounds(Y_BOUNDS)
         .marker(Marker::Braille)
         .paint(|ctx| {
             paint_card(ctx, card.0, card.1, card.2);
         });
 
-    frame.render_widget(canvas, area);
+    frame.render_widget(canvas, canvas_area);
 }
