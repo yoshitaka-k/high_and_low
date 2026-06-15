@@ -18,6 +18,7 @@ pub enum ShufflePhase {
 }
 
 impl ShufflePhase {
+    /// フェーズ名を返す
     pub fn label(self) -> &'static str {
         match self {
             Self::Hindu => "Hindu",
@@ -27,6 +28,7 @@ impl ShufflePhase {
         }
     }
 
+    /// 次のフェーズを返す
     fn next(self) -> Option<Self> {
         match self {
             Self::Hindu => Some(Self::Riffle),
@@ -45,6 +47,7 @@ pub struct ShuffleRunner {
 }
 
 impl ShuffleRunner {
+    /// 新しいシャッフルランナーを作成する
     pub fn new(cards: Vec<Card>) -> Self {
         Self {
             cards,
@@ -53,14 +56,17 @@ impl ShuffleRunner {
         }
     }
 
+    /// シャッフルがアクティブかどうかを返す
     pub fn is_active(&self) -> bool {
         self.phase.is_some()
     }
 
+    /// 現在のフェーズを返す
     pub fn phase(&self) -> Option<ShufflePhase> {
         self.phase
     }
 
+    /// 山札を返す
     pub fn cards(&self) -> &[Card] {
         &self.cards
     }
