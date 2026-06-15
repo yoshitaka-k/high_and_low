@@ -154,7 +154,6 @@ impl Game {
                     ResultLabel::Lose
                 }
             }
-            _ => ResultLabel::Draw,
         }
     }
 
