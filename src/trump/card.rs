@@ -1,36 +1,21 @@
 use crate::trump::constants::{
-    ACE_STR_RANK,
-    ACE_FROM_RANK,
-    ACE_TO_RANK,
-
-    JACK_STR_RANK,
-    JACK_FROM_RANK,
-    JACK_TO_RANK,
-
-    QUEEN_STR_RANK,
-    QUEEN_FROM_RANK,
-    QUEEN_TO_RANK,
-
-    KING_STR_RANK,
-    KING_FROM_RANK,
-    KING_TO_RANK,
-
     JOKER_STR_RANK,
     JOKER_TO_RANK,
 };
 
 use crate::trump::card_enum::suit::Suit;
+use crate::trump::card_enum::rank::Rank;
 
 /// カードの情報
 #[derive(Debug, Clone)]
 pub struct Card {
     suit: Suit,
-    rank: usize,
+    rank: Rank,
 }
 
 impl Card {
     /// 新しいカードを作成する
-    pub fn new(suit: Suit, rank: usize) -> Self {
+    pub fn new(suit: Suit, rank: Rank) -> Self {
         Self { suit, rank }
     }
 
@@ -40,7 +25,7 @@ impl Card {
     }
 
     /// カードのランクを取得する
-    pub fn rank(&self) -> usize {
+    pub fn rank(&self) -> Rank {
         self.rank
     }
 
@@ -56,14 +41,14 @@ impl Card {
 
     /// カードがエースかどうかを取得する
     pub fn is_ace_card(&self) -> bool {
-        self.rank == ACE_FROM_RANK
+        self.rank == Rank::Ace
     }
 
     /// カードが絵札かどうかを取得する
     pub fn is_face_card(&self) -> bool {
-        self.rank == JACK_FROM_RANK
-        || self.rank == QUEEN_FROM_RANK
-        || self.rank == KING_FROM_RANK
+        self.rank == Rank::Jack
+        || self.rank == Rank::Queen
+        || self.rank == Rank::King
     }
 
     /// 手札表示用の並び: スート（h → d → c → s → j）、同スート内はランクの数値順。
@@ -75,7 +60,7 @@ impl Card {
             Suit::Spade => 3,
             Suit::Joker => 4,
         };
-        let rank = self.rank as u16;
+        let rank = self.rank.as_usize() as u16;
         (suit, rank)
     }
 
@@ -86,13 +71,7 @@ impl Card {
                 JOKER_TO_RANK
             }
             _ => {
-                match self.rank {
-                    JACK_FROM_RANK => JACK_TO_RANK,
-                    QUEEN_FROM_RANK => QUEEN_TO_RANK,
-                    KING_FROM_RANK => KING_TO_RANK,
-                    ACE_FROM_RANK => ACE_TO_RANK,
-                    _ => self.rank,
-                }
+                self.rank.calc_rank()
             }
         }
     }
@@ -114,13 +93,7 @@ impl Card {
                 JOKER_STR_RANK
             }
             _ => {
-                match self.rank {
-                    ACE_FROM_RANK => ACE_STR_RANK,
-                    JACK_FROM_RANK => JACK_STR_RANK,
-                    QUEEN_FROM_RANK => QUEEN_STR_RANK,
-                    KING_FROM_RANK => KING_STR_RANK,
-                    _ => "",
-                }
+                self.rank.disp_rank()
             }
         }
     }
@@ -128,7 +101,7 @@ impl Card {
     /// カードの名前を取得する
     pub fn name(&self) -> String {
         match self.disp_rank() {
-            "" => format!("{}{}", self.disp_suit(), self.rank),
+            "" => format!("{}{}", self.disp_suit(), self.rank.disp_rank()),
             rank => format!("{}{}", self.disp_suit(), rank),
         }
     }
@@ -138,7 +111,7 @@ impl std::fmt::Display for Card {
     /// スート・ランク表示
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self.disp_rank() {
-            "" => write!(f, "{}{}", self.disp_suit(), self.rank),
+            "" => write!(f, "{}{}", self.disp_suit(), self.rank.disp_rank()),
             rank => write!(f, "{}{}", self.disp_suit(), rank),
         }
     }

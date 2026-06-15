@@ -140,8 +140,20 @@ impl Game {
         };
         match player.rank_diff(dealer).cmp(&0) {
             Ordering::Equal => ResultLabel::Draw,
-            Ordering::Greater if *choice == PlayerChoice::High => ResultLabel::Win,
-            Ordering::Less if *choice == PlayerChoice::Low => ResultLabel::Lose,
+            Ordering::Greater => {
+                if *choice == PlayerChoice::High {
+                    ResultLabel::Win
+                } else {
+                    ResultLabel::Lose
+                }
+            }
+            Ordering::Less => {
+                if *choice == PlayerChoice::Low {
+                    ResultLabel::Win
+                } else {
+                    ResultLabel::Lose
+                }
+            }
             _ => ResultLabel::Draw,
         }
     }

@@ -5,7 +5,6 @@ use ratatui::{
 
 use crate::rendar::trump::rank::{
     ace::Ace,
-    zero::Zero,
     two::Two,
     three::Three,
     four::Four,
@@ -20,6 +19,7 @@ use crate::rendar::trump::rank::{
     king::King,
 };
 use crate::trump::Card;
+use crate::trump::card_enum::rank::Rank;
 use crate::rendar::canvas::card_drawing::CardRectangle;
 
 /// ランクを描画する
@@ -38,85 +38,79 @@ pub(crate) fn rank_drawing(
         let color = Color::Reset;
 
         match card.rank() {
-            1 => ctx.draw(&Ace {
+            Rank::Ace => ctx.draw(&Ace {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            2 => ctx.draw(&Two {
+            Rank::Two => ctx.draw(&Two {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            3 => ctx.draw(&Three {
+            Rank::Three => ctx.draw(&Three {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            4 => ctx.draw(&Four {
+            Rank::Four => ctx.draw(&Four {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            5 => ctx.draw(&Five {
+            Rank::Five => ctx.draw(&Five {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            6 => ctx.draw(&Six {
+            Rank::Six => ctx.draw(&Six {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            7 => ctx.draw(&Seven {
+            Rank::Seven => ctx.draw(&Seven {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            8 => ctx.draw(&Eight {
+            Rank::Eight => ctx.draw(&Eight {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            9 => ctx.draw(&Nine {
+            Rank::Nine => ctx.draw(&Nine {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            10 => ctx.draw(&Ten {
+            Rank::Ten => ctx.draw(&Ten {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            11 => ctx.draw(&Jack {
+            Rank::Jack => ctx.draw(&Jack {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            12 => ctx.draw(&Queen {
+            Rank::Queen => ctx.draw(&Queen {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
                 color,
             }),
-            13 => ctx.draw(&King {
-                x: rank_x,
-                y: rank_y,
-                size: rank_size,
-                color,
-            }),
-            _ => ctx.draw(&Zero {
+            Rank::King => ctx.draw(&King {
                 x: rank_x,
                 y: rank_y,
                 size: rank_size,
