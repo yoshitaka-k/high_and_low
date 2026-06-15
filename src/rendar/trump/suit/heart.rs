@@ -37,6 +37,7 @@ impl Shape for Heart {
             self.color,
         )
         .draw(painter);
+
         Circle::new(
             right_x - self.size * 0.45,
             right_y + self.size * 0.2,

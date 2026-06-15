@@ -35,6 +35,7 @@ impl Shape for Clover {
             self.color,
         )
         .draw(painter);
+
         // 左下の円
         Circle::new(
             left_x + self.size * 0.5,
@@ -43,6 +44,7 @@ impl Shape for Clover {
             self.color,
         )
         .draw(painter);
+
         // 右下の円
         Circle::new(
             right_x - self.size * 0.5,
@@ -65,6 +67,7 @@ impl Shape for Clover {
             self.color,
         )
         .draw(painter);
+
         Line::new(
             bottom_x,
             bottom_y,

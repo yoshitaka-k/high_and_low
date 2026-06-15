@@ -36,13 +36,16 @@ impl Shape for Spade {
             left_y - self.size * 0.2,
             radius,
             self.color,
-        ).draw(painter);
+        )
+        .draw(painter);
+
         Circle::new(
             right_x - self.size * 0.45,
             right_y - self.size * 0.2,
             radius,
             self.color,
-        ).draw(painter);
+        )
+        .draw(painter);
 
         // 茎（下向き三角）: ハートの逆パターン
         //   上辺の左右端 → 下の先端
@@ -57,6 +60,7 @@ impl Shape for Spade {
             self.color,
         )
         .draw(painter);
+
         Line::new(
             bottom_x,
             bottom_y,
@@ -64,5 +68,6 @@ impl Shape for Spade {
             stem_top_y,
             self.color,
         )
-        .draw(painter);    }
+        .draw(painter);
+    }
 }

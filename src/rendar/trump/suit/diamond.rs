@@ -32,6 +32,7 @@ impl Shape for Diamond {
             Line::new(right_x, right_y, bottom_x, bottom_y, self.color),
             Line::new(bottom_x, bottom_y, left_x, left_y, self.color),
         ];
+
         for line in &lines {
             line.draw(painter);
         }
