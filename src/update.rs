@@ -1,10 +1,8 @@
-use crate::app::App;
-use crate::app::CurrentScreen;
 use ratatui::crossterm::event::{
     KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
 };
 
-use crate::app::GamePhase;
+use crate::app::{App, CurrentScreen, GamePhase};
 use crate::handle::mouse_actions::{
     main_mouse_left::handle_main_mouse_left,
     result_mouse_left::handle_result_mouse_left,

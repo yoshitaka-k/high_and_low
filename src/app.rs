@@ -55,9 +55,15 @@ impl App {
     /// ゲームを開始する
     pub fn start(&mut self) {
         self.current_screen = CurrentScreen::Main;
-        self.turn = 1;
         self.disp_text = String::new();
         self.game.start();
+    }
+
+    /// ゲームをリセットする
+    pub fn reset(&mut self) {
+        self.current_screen = CurrentScreen::Main;
+        self.disp_text = String::new();
+        self.game.reset();
     }
 
     /// 次のフェーズへ進む
@@ -70,7 +76,14 @@ impl App {
             GamePhase::Result => GamePhase::End,
             GamePhase::End => {
                 self.turn += 1;
-                GamePhase::Deal
+
+                if self.game.deck().len() < 2 {
+                    GamePhase::Setup
+                } else {
+                    self.reset();
+                    GamePhase::Deal
+                }
+
             },
         };
         self.on_phase_enter();

@@ -53,21 +53,23 @@ fn paint_card(
 
     ctx.layer();
 
-    if current_card == CurrentCard::Dealer {
-        // スートを描画する
-        suit_drawing(ctx, rectangle, card);
-        ctx.layer();
+    match current_card {
+        CurrentCard::Dealer => {
+            // スートを描画する
+            suit_drawing(ctx, rectangle, card);
+            ctx.layer();
 
-        // ランクを描画する
-        rank_drawing(ctx, rectangle, card);
+            // ランクを描画する
+            rank_drawing(ctx, rectangle, card);
+        }
+        CurrentCard::Player => {
+            let lines = [
+                Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
+            ];
 
-    } else if current_card == CurrentCard::Player {
-        let lines = [
-            Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
-        ];
-
-        for line in lines {
-            ctx.draw(&line);
+            for line in lines {
+                ctx.draw(&line);
+            }
         }
     }
 }

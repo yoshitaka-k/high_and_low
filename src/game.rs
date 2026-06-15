@@ -62,6 +62,13 @@ impl Game {
         self.begin_shuffle();
     }
 
+    /// ゲームをリセットする
+    pub fn reset(&mut self) {
+        self.choice = None;
+        self.dealer_card = None;
+        self.player_card = None;
+    }
+
     /// シャッフル中かどうかを返す
     pub fn is_shuffling(&self) -> bool {
         self.shuffle

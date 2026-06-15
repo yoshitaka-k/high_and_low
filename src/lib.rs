@@ -11,7 +11,7 @@ pub mod handle;
 
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 
-/// Helper function to center a rectangle
+/// 中央に配置された矩形を返す
 pub fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
     let popup_layout = Layout::default()
         .direction(Direction::Vertical)
