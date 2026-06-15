@@ -9,7 +9,7 @@ pub(crate) fn handle_main_mouse_left(app: &mut App, mouse_event: MouseEvent) {
     let mouse_pos = Position::new(mouse_event.column, mouse_event.row);
 
     match app.current_phase {
-        GamePhase::Play => {
+        GamePhase::Playing => {
             handle_playing(app, mouse_pos);
         }
         _ => {}

@@ -17,10 +17,10 @@ pub(crate) fn handle_playing(app: &mut App, mouse_pos: Position) {
         app.game.set_choice(Some(PlayerChoice::Low));
     }
 
-    // 画面をクリックしたら、次のフェーズへ進む
+    // 決定ボタンをクリックしたら、次のフェーズへ進む
     if app.positions.enter().contains(mouse_pos) {
         if app.game.choice().is_some() {
-            app.advance_phase();
+            app.game.set_enter(true);
         } else {
             app.disp_text = String::from("Please select a choice");
         }

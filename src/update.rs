@@ -5,13 +5,15 @@ use ratatui::crossterm::event::{
 use crate::app::{App, CurrentScreen, GamePhase};
 use crate::handle::mouse_actions::{
     main_mouse_left::handle_main_mouse_left,
-    result_mouse_left::handle_result_mouse_left,
+    end_mouse_left::handle_end_mouse_left,
 };
 use crate::handle::tick::{
-    deal::tick_deal,
-    shuffle::tick_shuffle,
     setup::tick_setup,
+    shuffle::tick_shuffle,
+    deal::tick_deal,
+    playing::tick_playing,
     result::tick_result,
+    end::tick_end,
 };
 
 /// キーイベントを処理する関数
@@ -41,7 +43,7 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
         MouseEventKind::Up(MouseButton::Left) => {
             match app.current_screen {
                 CurrentScreen::Main => handle_main_mouse_left(app, mouse_event),
-                CurrentScreen::Result => handle_result_mouse_left(app),
+                CurrentScreen::End => handle_end_mouse_left(app),
                 _ => {}
             }
         }
@@ -65,8 +67,9 @@ pub fn tick_update(app: &mut App) {
         GamePhase::Setup => tick_setup(app),
         GamePhase::Shuffle => tick_shuffle(app),
         GamePhase::Deal => tick_deal(app),
+        GamePhase::Playing => tick_playing(app),
         GamePhase::Result => tick_result(app),
-        _ => {}
+        GamePhase::End => tick_end(app),
     }
 
     // 次のフェーズへ進むタイミングなら、次のフェーズへ進む

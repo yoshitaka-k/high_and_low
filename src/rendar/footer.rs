@@ -30,7 +30,7 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
             CurrentScreen::Main => {
                 Span::styled("Game Playing", Style::default().fg(Color::Green).bold())
             }
-            CurrentScreen::Result => {
+            CurrentScreen::End => {
                 Span::styled("Result", Style::default().fg(Color::Green).bold())
             }
             CurrentScreen::Exiting => {
@@ -45,7 +45,7 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
                     GamePhase::Setup => "Setup Phase",
                     GamePhase::Shuffle => "Shuffle Phase",
                     GamePhase::Deal => "Deal Phase",
-                    GamePhase::Play => "Play Phase",
+                    GamePhase::Playing => "Playing Phase",
                     GamePhase::Result => "Result Phase",
                     GamePhase::End => "End Phase",
                 }),

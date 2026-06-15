@@ -6,7 +6,7 @@ use getset::{Getters, MutGetters, Setters};
 #[derive(Debug, PartialEq)]
 pub enum CurrentScreen {
     Main,
-    Result,
+    End,
     Exiting,
 }
 
@@ -15,7 +15,7 @@ pub enum GamePhase {
     Setup,
     Shuffle,
     Deal,
-    Play,
+    Playing,
     Result,
     End,
 }
@@ -71,8 +71,8 @@ impl App {
         self.current_phase = match self.current_phase {
             GamePhase::Setup => GamePhase::Shuffle,
             GamePhase::Shuffle => GamePhase::Deal,
-            GamePhase::Deal => GamePhase::Play,
-            GamePhase::Play => GamePhase::Result,
+            GamePhase::Deal => GamePhase::Playing,
+            GamePhase::Playing => GamePhase::Result,
             GamePhase::Result => GamePhase::End,
             GamePhase::End => {
                 self.turn += 1;

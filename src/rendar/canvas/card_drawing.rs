@@ -65,7 +65,7 @@ fn paint_card(
             rank_drawing(ctx, rectangle, card);
         }
         CurrentCard::Player => {
-            if card.is_some() && phase == GamePhase::Play {
+            if card.is_some() && phase == GamePhase::Playing {
                 let lines = [
                     Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
                 ];
@@ -73,7 +73,7 @@ fn paint_card(
                 for line in lines {
                     ctx.draw(&line);
                 }
-            } else if card.is_some() && phase == GamePhase::Result {
+            } else if card.is_some() && (phase == GamePhase::Result || phase == GamePhase::End) {
                 // スートを描画する
                 suit_drawing(ctx, rectangle, card);
                 ctx.layer();

@@ -8,7 +8,7 @@ use crate::rendar::{
     header::render_header,
     footer::render_footer,
     content::render_content,
-    result::render_result,
+    end::render_end,
     popup::exiting::render_exiting,
 };
 
@@ -32,8 +32,8 @@ pub fn render(frame: &mut Frame, app: &mut App) {
         CurrentScreen::Main => {
             render_content(frame, main, app);
         }
-        CurrentScreen::Result => {
-            render_result(frame, main, app);
+        CurrentScreen::End => {
+            render_end(frame, main, app);
         }
         CurrentScreen::Exiting => {
             render_exiting(frame);

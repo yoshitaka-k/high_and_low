@@ -32,6 +32,9 @@ pub struct Game {
     #[getset(get = "pub", set = "pub")]
     choice: Option<PlayerChoice>,
 
+    #[getset(get = "pub", set = "pub")]
+    enter: bool,
+
     shuffle: Option<ShuffleRunner>,
     pending_phase_advance_ticks: Option<u8>,
 }
@@ -46,6 +49,7 @@ impl Game {
             pending_phase_advance_ticks: None,
 
             choice: None,
+            enter: false,
 
             dealer_card: None,
             player_card: None,
@@ -55,6 +59,8 @@ impl Game {
     /// 山札を用意して、シャッフルを開始する
     pub fn start(&mut self) {
         self.choice = None;
+        self.enter = false;
+
         self.dealer_card = None;
         self.player_card = None;
 
@@ -65,6 +71,7 @@ impl Game {
     /// ゲームをリセットする
     pub fn reset(&mut self) {
         self.choice = None;
+        self.enter = false;
         self.dealer_card = None;
         self.player_card = None;
     }

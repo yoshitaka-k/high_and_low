@@ -10,8 +10,8 @@ use figlet_rs::FIGlet;
 use crate::app::App;
 use crate::game::ResultLabel;
 
-/// 結果をレンダリングする
-pub fn render_result(frame: &mut Frame, area: Rect, app: &mut App) {
+/// エンド画面をレンダリングする
+pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
     let vertical = Layout::vertical([
         Constraint::Fill(1),
         Constraint::Length(7),
