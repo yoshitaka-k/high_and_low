@@ -152,7 +152,7 @@ impl EventHandler {
 
     /// マウスイベントを終了系は待たずに送る（Tick 間隔に合わせない）
     fn is_immediate_mouse(mouse_event: &MouseEvent) -> bool {
-        matches!(mouse_event.kind, MouseEventKind::Up(MouseButton::Left | MouseButton::Right))
+        matches!(mouse_event.kind, MouseEventKind::Up(MouseButton::Left))
     }
 
     /// イベントを取得する
