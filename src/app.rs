@@ -10,7 +10,7 @@ pub enum CurrentScreen {
     Exiting,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GamePhase {
     Setup,
     Shuffle,

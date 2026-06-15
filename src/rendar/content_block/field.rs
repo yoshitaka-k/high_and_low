@@ -27,11 +27,13 @@ pub fn render_field(frame: &mut Frame, area: Rect, app: &App) {
         frame,
         dealer,
         (&CARD_RECT, CurrentCard::Dealer, app.game.dealer_card().as_ref()),
+        app.current_phase,
     );
 
     card_drawing(
         frame,
         player,
         (&CARD_RECT, CurrentCard::Player, app.game.player_card().as_ref()),
+        app.current_phase,
     );
 }

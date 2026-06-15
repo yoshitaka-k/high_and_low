@@ -8,6 +8,7 @@ use ratatui::{
 };
 
 use crate::trump::Card;
+use crate::app::GamePhase;
 use crate::rendar::content_block::field::CurrentCard;
 use crate::rendar::canvas::{
     suit_drawing::suit_drawing,
@@ -41,6 +42,7 @@ fn paint_card(
     rectangle: &CardRectangle,
     current_card: CurrentCard,
     card: Option<&Card>,
+    phase: GamePhase,
 ) {
     // カードの外枠を描画する
     ctx.draw(&Rectangle::new(
@@ -63,12 +65,21 @@ fn paint_card(
             rank_drawing(ctx, rectangle, card);
         }
         CurrentCard::Player => {
-            let lines = [
-                Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
-            ];
+            if card.is_some() && phase == GamePhase::Play {
+                let lines = [
+                    Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
+                ];
 
-            for line in lines {
-                ctx.draw(&line);
+                for line in lines {
+                    ctx.draw(&line);
+                }
+            } else if card.is_some() && phase == GamePhase::Result {
+                // スートを描画する
+                suit_drawing(ctx, rectangle, card);
+                ctx.layer();
+
+                // ランクを描画する
+                rank_drawing(ctx, rectangle, card);
             }
         }
     }
@@ -79,6 +90,7 @@ pub fn card_drawing(
     frame: &mut Frame,
     area: Rect,
     card: (&CardRectangle, CurrentCard, Option<&Card>),
+    phase: GamePhase,
 ) {
     let vertical = Layout::vertical([
         Constraint::Length(3),
@@ -100,7 +112,7 @@ pub fn card_drawing(
         .y_bounds(Y_BOUNDS)
         .marker(Marker::Braille)
         .paint(|ctx| {
-            paint_card(ctx, card.0, card.1, card.2);
+            paint_card(ctx, card.0, card.1, card.2, phase);
         });
 
     frame.render_widget(canvas, canvas_area);
