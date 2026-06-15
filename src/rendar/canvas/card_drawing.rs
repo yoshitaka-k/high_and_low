@@ -4,12 +4,13 @@ use ratatui::{
     style::Color,
     symbols::Marker,
     widgets::{Block, Borders, Paragraph, Padding},
-    widgets::canvas::{Canvas, Context, Rectangle, Line},
+    widgets::canvas::{Canvas, Context, Rectangle},
 };
 
 use crate::trump::Card;
 use crate::app::GamePhase;
 use crate::rendar::content_block::field::CurrentCard;
+use crate::rendar::trump::back_design::BackDesign;
 use crate::rendar::canvas::{
     suit_drawing::suit_drawing,
     rank_drawing::rank_drawing,
@@ -66,18 +67,19 @@ fn paint_card(
             rank_drawing(ctx, rectangle, card);
         }
         CurrentCard::Player => {
+            // 裏面を描画する
             if card.is_some() && phase == GamePhase::Playing {
-                let lines = [
-                    Line::new(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, Color::White),
-                ];
+                ctx.draw(&BackDesign {
+                    x: rectangle.x + rectangle.width / 2.0,
+                    y: rectangle.y + rectangle.height / 2.0,
+                    size: rectangle.width.min(rectangle.height) * 0.37,
+                });
 
-                for line in lines {
-                    ctx.draw(&line);
-                }
-            } else if card.is_some() && (phase == GamePhase::Result || phase == GamePhase::End) {
+            }
+            // 結果表示時にスートとランクを描画する
+            else if card.is_some() && (phase == GamePhase::Result || phase == GamePhase::End) {
                 // スートを描画する
                 suit_drawing(ctx, rectangle, card);
-                ctx.layer();
 
                 // ランクを描画する
                 rank_drawing(ctx, rectangle, card);
