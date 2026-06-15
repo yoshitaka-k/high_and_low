@@ -32,6 +32,7 @@ pub struct App {
     pub turn: usize,
     pub header_text: String,
     pub footer_text: String,
+    pub help_text: String,
     pub disp_text: String,
 }
 
@@ -48,6 +49,7 @@ impl App {
             turn: 1,
             header_text: String::new(),
             footer_text: String::new(),
+            help_text: String::new(),
             disp_text: String::new(),
         }
     }
@@ -56,6 +58,7 @@ impl App {
     pub fn start(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.disp_text = String::new();
+        self.help_text = String::new();
         self.game.start();
     }
 
@@ -63,6 +66,7 @@ impl App {
     pub fn reset(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.disp_text = String::new();
+        self.help_text = String::new();
         self.game.reset();
     }
 
@@ -94,6 +98,15 @@ impl App {
         match self.current_phase {
             GamePhase::Setup => {
                 self.turn = 1;
+            },
+            GamePhase::Shuffle => {
+                self.help_text = String::from("Shuffling the deck...");
+            },
+            GamePhase::Deal => {
+                self.help_text = String::from("Dealing the cards...");
+            },
+            GamePhase::Playing => {
+                self.help_text = String::from("Card strength: Ace > King > Queen > Jack > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2");
             },
             _ => {},
         }

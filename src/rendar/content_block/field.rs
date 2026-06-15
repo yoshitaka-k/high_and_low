@@ -6,6 +6,7 @@ use ratatui::{
 use crate::app::App;
 use crate::rendar::{
     canvas::card_drawing::{CARD_RECT, card_drawing},
+    content_block::help::render_help,
 };
 
 #[derive(PartialEq, Clone, Copy)]
@@ -16,11 +17,21 @@ pub enum CurrentCard {
 
 /// フィールドをレンダリングする
 pub fn render_field(frame: &mut Frame, area: Rect, app: &App) {
+    // フィールドのレイアウト
+    let vertical = Layout::vertical([
+        Constraint::Fill(1),
+        Constraint::Length(3),
+    ]);
+    let [field, help] = area.layout(&vertical);
+
+    render_help(frame, help, app);
+
+    // ディーラーとプレイヤーのカードを描画するためのレイアウト
     let horizontal = Layout::horizontal([
         Constraint::Percentage(50),
         Constraint::Percentage(50),
     ]).spacing(1);
-    let [dealer, player] = area.layout(&horizontal);
+    let [dealer, player] = field.layout(&horizontal);
 
     // ディーラーとプレイヤーのカードを描画する
     card_drawing(

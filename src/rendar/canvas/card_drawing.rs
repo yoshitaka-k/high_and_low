@@ -44,16 +44,17 @@ fn paint_card(
     card: Option<&Card>,
     phase: GamePhase,
 ) {
-    // カードの外枠を描画する
-    ctx.draw(&Rectangle::new(
-        rectangle.x,
-        rectangle.y,
-        rectangle.width,
-        rectangle.height,
-        Color::Reset,
-    ));
-
-    ctx.layer();
+    if card.is_some() {
+        // カードの外枠を描画する
+        ctx.draw(&Rectangle::new(
+            rectangle.x,
+            rectangle.y,
+            rectangle.width,
+            rectangle.height,
+            Color::Reset,
+        ));
+        ctx.layer();
+    }
 
     match current_card {
         CurrentCard::Dealer => {

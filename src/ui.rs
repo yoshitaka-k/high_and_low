@@ -19,8 +19,7 @@ pub fn render(frame: &mut Frame, app: &mut App) {
         Constraint::Length(3),
         Constraint::Fill(1),
         Constraint::Length(3),
-    ])
-    .spacing(1);
+    ]);
 
     // 全体のレイアウト分割
     let [top, main, bottom] = frame.area().layout(&vertical);

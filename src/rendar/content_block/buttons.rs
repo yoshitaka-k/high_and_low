@@ -20,15 +20,29 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         // .spacing(1);
     let [top, disp, enter, bottom] = area.layout(&vertical);
 
+    // ディスプレイスタイル
+    let disp_block = Block::new()
+        .title("Disp")
+        .borders(Borders::ALL)
+        .padding(Padding::horizontal(1));
+    frame.render_widget(disp_block, disp);
+
+    let disp_vertical = Layout::vertical([
+        Constraint::Fill(1),
+        Constraint::Length(1),
+        Constraint::Fill(1),
+    ]);
+    let [_, disp_text_area, _] = disp.layout(&disp_vertical);
+
+    let disp_pagraph = Paragraph::new(app.disp_text.as_str()).alignment(Alignment::Center);
+
+    frame.render_widget(disp_pagraph, disp_text_area);
+
     // ボタンスタイル
     let high_block = Block::new()
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1))
         .style(Style::default().fg(Color::Green));
-    let disp_block = Block::new()
-        .title("Disp")
-        .borders(Borders::ALL)
-        .padding(Padding::horizontal(1));
     let enter_block = Block::new()
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1))
@@ -38,18 +52,13 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         .padding(Padding::horizontal(1))
         .style(Style::default().fg(Color::Yellow));
 
-    // ディスプレイテキストを取得
-    let disp_text = app.disp_text.as_str();
-
     // ボタンをレンダリング
     let high_paraph = Paragraph::new("High").block(high_block);
-    let disp_paraph = Paragraph::new(disp_text).block(disp_block).alignment(Alignment::Center);
     let low_paraph = Paragraph::new("Low").block(low_block);
     let enter_paraph = Paragraph::new("Enter").block(enter_block);
 
     // ボタンを描画
     frame.render_widget(high_paraph, top);
-    frame.render_widget(disp_paraph, disp);
     frame.render_widget(enter_paraph, enter);
     frame.render_widget(low_paraph, bottom);
 
