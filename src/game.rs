@@ -36,7 +36,6 @@ pub struct Game {
     enter: bool,
 
     shuffle: Option<ShuffleRunner>,
-    pending_phase_advance_ticks: Option<u8>,
 }
 
 impl Game {
@@ -46,7 +45,6 @@ impl Game {
             deck: Deck::new(),
 
             shuffle: None,
-            pending_phase_advance_ticks: None,
 
             choice: None,
             enter: false,
@@ -104,24 +102,8 @@ impl Game {
     }
 
     /// シャッフルを進める
-    /// 次のフェーズへ進むタイミングなら `true` を返す
-    pub fn tick(&mut self) -> bool {
-        self.tick_shuffle();
-
-        let Some(ticks) = self.pending_phase_advance_ticks.as_mut() else {
-            return false;
-        };
-        *ticks = ticks.saturating_sub(1);
-        if *ticks == 0 {
-            self.pending_phase_advance_ticks = None;
-            return true;
-        }
-        false
-    }
-
-    /// シャッフルを進める
     /// シャッフルが完了したら、山札を更新する
-    fn tick_shuffle(&mut self) {
+    pub fn tick_shuffle(&mut self) {
         let Some(runner) = &mut self.shuffle else {
             if self.deck.is_empty() {
                 self.begin_shuffle();
@@ -136,13 +118,6 @@ impl Game {
         }
 
         self.deck.replace_cards(runner.cards().to_vec());
-    }
-
-    /// 次のフェーズへの進行をスケジュールする
-    pub fn schedule_phase_advance(&mut self, delay_ticks: u8) {
-        if self.pending_phase_advance_ticks.is_none() {
-            self.pending_phase_advance_ticks = Some(delay_ticks);
-        }
     }
 
     /// プレイヤーのカードとディーラーのカードのランクの大小関係を返す

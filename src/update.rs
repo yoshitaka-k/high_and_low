@@ -76,7 +76,7 @@ pub fn tick_update(app: &mut App) {
     }
 
     // 次のフェーズへ進むタイミングなら、次のフェーズへ進む
-    if app.game.tick() {
+    if app.tick() {
         app.advance_phase();
     }
 }

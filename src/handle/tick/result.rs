@@ -12,5 +12,5 @@ pub(crate) fn tick_result(app: &mut App) {
     }
 
     // プレイヤーカードを表示した後少し待機
-    app.game.schedule_phase_advance(RESULT_PAUSE_TICKS);
+    app.schedule_phase_advance(RESULT_PAUSE_TICKS);
 }

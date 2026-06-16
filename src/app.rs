@@ -37,6 +37,9 @@ pub struct App {
     pub footer_text: String,
     pub help_text: String,
     pub disp_text: String,
+
+    /// 次のフェーズへ進むタイミングをスケジュールする
+    pending_phase_advance_ticks: Option<u8>,
 }
 
 impl App {
@@ -55,6 +58,8 @@ impl App {
             footer_text: String::new(),
             help_text: String::new(),
             disp_text: String::new(),
+
+            pending_phase_advance_ticks: None,
         }
     }
 
@@ -117,6 +122,34 @@ impl App {
             },
             _ => {},
         }
+    }
+
+    /// 次のフェーズへの進行をスケジュールする
+    pub fn schedule_phase_advance(&mut self, delay_ticks: u8) {
+        if self.pending_phase_advance_ticks.is_none() {
+            self.pending_phase_advance_ticks = Some(delay_ticks);
+        }
+    }
+
+    /// チックを進める
+    /// 次のフェーズへ進むタイミングなら `true` を返す
+    pub fn tick(&mut self) -> bool {
+        self.game.tick_shuffle();
+
+        // 次のフェーズへの進行をスケジュールしていたら、その時間を進める
+        let Some(ticks) = self.pending_phase_advance_ticks.as_mut() else {
+            return false;
+        };
+
+        // 時間を進める
+        *ticks = ticks.saturating_sub(1);
+
+        // 時間が0になったら、次のフェーズへ進む
+        if *ticks == 0 {
+            self.pending_phase_advance_ticks = None;
+            return true;
+        }
+        false
     }
 
     /// アプリケーションを終了する
