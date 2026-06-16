@@ -5,12 +5,13 @@ use ratatui::{
 
 use crate::app::{App, CurrentScreen};
 use crate::rendar::{
+    title::render_title,
     header::render_header,
     footer::render_footer,
     content::render_content,
     end::render_end,
+    popup::shuffle::render_shuffle,
     popup::exiting::render_exiting,
-    title::render_title,
 };
 
 /// UI を描画する
@@ -40,6 +41,9 @@ pub fn render(frame: &mut Frame, app: &mut App) {
         CurrentScreen::End => {
             app.back_screen = CurrentScreen::End;
             render_end(frame, main, app);
+        }
+        CurrentScreen::Shuffle => {
+            render_shuffle(frame, main, app);
         }
         CurrentScreen::Exiting => {
             render_exiting(frame);

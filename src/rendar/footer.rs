@@ -36,6 +36,9 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
             CurrentScreen::End => {
                 Span::styled("Result", Style::default().fg(Color::Green).bold())
             }
+            CurrentScreen::Shuffle => {
+                Span::styled("Shuffling", Style::default().fg(Color::Green).bold())
+            }
             CurrentScreen::Exiting => {
                 Span::styled("Exiting", Style::default().fg(Color::LightRed).bold())
             }

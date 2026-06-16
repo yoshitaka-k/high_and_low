@@ -8,6 +8,7 @@ pub enum CurrentScreen {
     Title,
     Main,
     End,
+    Shuffle,
     Exiting,
 }
 
@@ -40,6 +41,9 @@ pub struct App {
 
     /// 次のフェーズへ進むタイミングをスケジュールする
     pending_phase_advance_ticks: Option<u8>,
+
+    /// シャッフル画面のスピナーアニメーション用 tick
+    shuffle_spinner_ticks: u8,
 }
 
 impl App {
@@ -60,6 +64,7 @@ impl App {
             disp_text: String::new(),
 
             pending_phase_advance_ticks: None,
+            shuffle_spinner_ticks: 0,
         }
     }
 
@@ -112,6 +117,7 @@ impl App {
                 self.turn = 1;
             },
             GamePhase::Shuffle => {
+                self.shuffle_spinner_ticks = 0;
                 self.help_text = String::from("Shuffling the deck...");
             },
             GamePhase::Deal => {
@@ -150,6 +156,20 @@ impl App {
             return true;
         }
         false
+    }
+
+    /// シャッフル画面のスピナー用フレーム（0..4）
+    pub fn shuffle_spinner_frame(&self) -> usize {
+        if self.current_screen != CurrentScreen::Shuffle {
+            return 0;
+        }
+
+        self.shuffle_spinner_ticks as usize % 4
+    }
+
+    /// シャッフル画面のスピナーアニメーション用 tick を進める
+    pub fn advance_shuffle_spinner(&mut self) {
+        self.shuffle_spinner_ticks = self.shuffle_spinner_ticks.wrapping_add(1);
     }
 
     /// アプリケーションを終了する
