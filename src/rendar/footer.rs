@@ -10,8 +10,10 @@ use crate::app::{App, CurrentScreen, GamePhase};
 
 /// フッターをレンダリングする
 pub fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
-    let horizontal =
-        Layout::horizontal([Constraint::Percentage(50), Constraint::Percentage(50)]).spacing(1);
+    let horizontal = Layout::horizontal([
+        Constraint::Percentage(50),
+        Constraint::Percentage(50)
+    ]);
     let [left, right] = area.layout(&horizontal);
 
     let footer_left = footer_left_area(app);

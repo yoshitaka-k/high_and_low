@@ -1,3 +1,4 @@
+use crate::components::TickerFps;
 use crate::game::Game;
 use crate::rendar::block_position::BlockPosition;
 use getset::{Getters, MutGetters, Setters};
@@ -39,6 +40,8 @@ pub struct App {
     pub help_text: String,
     pub disp_text: String,
 
+    pub ticker_fps: TickerFps,
+
     /// 次のフェーズへ進むタイミングをスケジュールする
     pending_phase_advance_ticks: Option<u8>,
 
@@ -62,6 +65,8 @@ impl App {
             footer_text: String::new(),
             help_text: String::new(),
             disp_text: String::new(),
+
+            ticker_fps: TickerFps::new(),
 
             pending_phase_advance_ticks: None,
             shuffle_spinner_ticks: 0,

@@ -21,14 +21,19 @@ fn main() -> Result<()> {
     tui.enter()?;
 
     tui.draw(&mut app)?;
+    app.ticker_fps.on_frame();
 
     while !app.should_quit {
         match tui.events.next()? {
-            Event::Tick => tick_update(&mut app),
+            Event::Tick => {
+                app.ticker_fps.on_tick();
+                tick_update(&mut app);
+            }
             Event::Key(key) => key_update(&mut app, key),
             Event::Mouse(mouse) => mouse_update(&mut app, mouse),
         }
         tui.draw(&mut app)?;
+        app.ticker_fps.on_frame();
     }
 
     tui.exit()?;
