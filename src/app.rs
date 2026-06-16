@@ -3,7 +3,7 @@ use crate::rendar::block_position::BlockPosition;
 use getset::{Getters, MutGetters, Setters};
 
 /// 現在の画面を表す列挙型
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum CurrentScreen {
     Title,
     Main,
@@ -26,6 +26,7 @@ pub enum GamePhase {
 #[derive(Getters, MutGetters, Setters)]
 pub struct App {
     pub current_screen: CurrentScreen,
+    pub back_screen: CurrentScreen,
     pub current_phase: GamePhase,
     pub positions: BlockPosition,
     pub should_quit: bool,
@@ -43,6 +44,7 @@ impl App {
     pub fn new() -> Self {
         Self {
             current_screen: CurrentScreen::Title,
+            back_screen: CurrentScreen::Title,
             current_phase: GamePhase::Title,
             positions: BlockPosition::default(),
             should_quit: false,
@@ -59,6 +61,7 @@ impl App {
     /// ゲームを開始する
     pub fn start(&mut self) {
         self.current_screen = CurrentScreen::Main;
+        self.back_screen = CurrentScreen::Main;
         self.disp_text = String::new();
         self.help_text = String::new();
         self.game.start();
@@ -67,6 +70,7 @@ impl App {
     /// ゲームをリセットする
     pub fn reset(&mut self) {
         self.current_screen = CurrentScreen::Main;
+        self.back_screen = CurrentScreen::Main;
         self.disp_text = String::new();
         self.help_text = String::new();
         self.game.reset();

@@ -22,7 +22,7 @@ pub fn key_update(app: &mut App, key_event: KeyEvent) {
     match app.current_screen {
         CurrentScreen::Exiting => match key_event.code {
             KeyCode::Enter | KeyCode::Char('y') => app.should_quit = true,
-            KeyCode::Esc | KeyCode::Char('n') => app.current_screen = CurrentScreen::Main,
+            KeyCode::Esc | KeyCode::Char('n') => app.current_screen = app.back_screen,
             _ => {}
         },
         _ => match key_event.code {

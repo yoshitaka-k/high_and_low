@@ -30,12 +30,15 @@ pub fn render(frame: &mut Frame, app: &mut App) {
 
     match app.current_screen {
         CurrentScreen::Title => {
+            app.back_screen = CurrentScreen::Title;
             render_title(frame, main);
         }
         CurrentScreen::Main => {
+            app.back_screen = CurrentScreen::Main;
             render_content(frame, main, app);
         }
         CurrentScreen::End => {
+            app.back_screen = CurrentScreen::End;
             render_end(frame, main, app);
         }
         CurrentScreen::Exiting => {
