@@ -5,6 +5,7 @@ use getset::{Getters, MutGetters, Setters};
 /// 現在の画面を表す列挙型
 #[derive(Debug, PartialEq)]
 pub enum CurrentScreen {
+    Title,
     Main,
     End,
     Exiting,
@@ -12,6 +13,7 @@ pub enum CurrentScreen {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GamePhase {
+    Title,
     Setup,
     Shuffle,
     Deal,
@@ -40,8 +42,8 @@ impl App {
     /// 新しいアプリケーションを作成する
     pub fn new() -> Self {
         Self {
-            current_screen: CurrentScreen::Main,
-            current_phase: GamePhase::Setup,
+            current_screen: CurrentScreen::Title,
+            current_phase: GamePhase::Title,
             positions: BlockPosition::default(),
             should_quit: false,
             game: Game::new(),
@@ -73,6 +75,7 @@ impl App {
     /// 次のフェーズへ進む
     pub fn advance_phase(&mut self) {
         self.current_phase = match self.current_phase {
+            GamePhase::Title => GamePhase::Setup,
             GamePhase::Setup => GamePhase::Shuffle,
             GamePhase::Shuffle => GamePhase::Deal,
             GamePhase::Deal => GamePhase::Playing,

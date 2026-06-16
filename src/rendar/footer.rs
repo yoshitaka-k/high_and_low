@@ -27,6 +27,9 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
     // Current Navigation Text
     let current_navigation_text = vec![
         match app.current_screen {
+            CurrentScreen::Title => {
+                Span::styled("Title", Style::default().fg(Color::Green).bold())
+            }
             CurrentScreen::Main => {
                 Span::styled("Game Playing", Style::default().fg(Color::Green).bold())
             }
@@ -42,6 +45,7 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
         {
             Span::styled(
                 format!("{}", match app.current_phase {
+                    GamePhase::Title => "Title Phase",
                     GamePhase::Setup => "Setup Phase",
                     GamePhase::Shuffle => "Shuffle Phase",
                     GamePhase::Deal => "Deal Phase",

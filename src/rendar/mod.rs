@@ -7,3 +7,4 @@ pub mod header;
 pub mod popup;
 pub mod trump;
 pub mod end;
+pub mod title;

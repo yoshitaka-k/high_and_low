@@ -4,6 +4,7 @@ use ratatui::crossterm::event::{
 
 use crate::app::{App, CurrentScreen, GamePhase};
 use crate::handle::mouse_actions::{
+    title_mouse_left::handle_title_mouse_left,
     main_mouse_left::handle_main_mouse_left,
     end_mouse_left::handle_end_mouse_left,
 };
@@ -42,6 +43,7 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
         // 左クリックされたときの処理
         MouseEventKind::Up(MouseButton::Left) => {
             match app.current_screen {
+                CurrentScreen::Title => handle_title_mouse_left(app),
                 CurrentScreen::Main => handle_main_mouse_left(app, mouse_event),
                 CurrentScreen::End => handle_end_mouse_left(app),
                 _ => {}
@@ -70,6 +72,7 @@ pub fn tick_update(app: &mut App) {
         GamePhase::Playing => tick_playing(app),
         GamePhase::Result => tick_result(app),
         GamePhase::End => tick_end(app),
+        _ => {}
     }
 
     // 次のフェーズへ進むタイミングなら、次のフェーズへ進む

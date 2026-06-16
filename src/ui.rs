@@ -10,6 +10,7 @@ use crate::rendar::{
     content::render_content,
     end::render_end,
     popup::exiting::render_exiting,
+    title::render_title,
 };
 
 /// UI を描画する
@@ -28,6 +29,9 @@ pub fn render(frame: &mut Frame, app: &mut App) {
     render_header(frame, top, app);
 
     match app.current_screen {
+        CurrentScreen::Title => {
+            render_title(frame, main);
+        }
         CurrentScreen::Main => {
             render_content(frame, main, app);
         }
