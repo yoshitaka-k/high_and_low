@@ -1,10 +1,12 @@
-use ratatui::style::Color;
+mod phase_enter;
+mod text;
+mod color;
 
 use crate::components::TickerFps;
+use crate::app::{text::AppText, color::AppColor};
 use crate::game::Game;
+use crate::player::Player;
 use crate::rendar::block_position::BlockPosition;
-
-mod phase_enter;
 
 /// 現在の画面を表す列挙型
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -27,30 +29,19 @@ pub enum GamePhase {
     End,
 }
 
-/// アプリケーションのテキストを表す構造体
-#[derive(Default)]
-pub struct AppText {
-    pub header: String,
-    pub footer: String,
-    pub help: String,
-    pub disp: String,
-    pub result: String,
-}
-
-/// アプリケーションの色を表す構造体
-#[derive(Default)]
-pub struct AppColor {
-    pub result: Color,
-}
-
 /// アプリケーションの状態を表す構造体
 pub struct App {
     pub current_screen: CurrentScreen,
     pub back_screen: CurrentScreen,
     pub current_phase: GamePhase,
+
     pub positions: BlockPosition,
+
     pub should_quit: bool,
+
     pub game: Game,
+    pub player: Player,
+
     pub current: usize,
     pub turn: usize,
 
@@ -76,6 +67,7 @@ impl App {
             positions: BlockPosition::default(),
             should_quit: false,
             game: Game::new(),
+            player: Player::new("Player".to_string()),
             current: 0,
             turn: 1,
 

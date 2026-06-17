@@ -2,7 +2,9 @@ use std::cmp::Ordering;
 
 use getset::{Getters, MutGetters, Setters};
 
+use crate::constants::DEFAULT_BET;
 use crate::trump::{Card, Deck, shuffle::{ShufflePhase, ShuffleRunner}};
+
 
 /// プレイヤーの選択
 #[derive(PartialEq)]
@@ -24,6 +26,9 @@ pub struct Game {
     #[getset(get = "pub", get_mut = "pub")]
     deck: Deck,
 
+    #[getset(get = "pub", set = "pub")]
+    bet: i32,
+
     #[getset(get = "pub", get_mut = "pub", set = "pub")]
     dealer_card: Option<Card>,
     #[getset(get = "pub", get_mut = "pub", set = "pub")]
@@ -44,6 +49,8 @@ impl Game {
         Self {
             deck: Deck::new(),
 
+            bet: 0,
+
             shuffle: None,
 
             choice: None,
@@ -56,6 +63,8 @@ impl Game {
 
     /// 山札を用意して、シャッフルを開始する
     pub fn start(&mut self) {
+        self.bet = DEFAULT_BET;
+
         self.choice = None;
         self.enter = false;
 
@@ -68,6 +77,8 @@ impl Game {
 
     /// ゲームをリセットする
     pub fn reset(&mut self) {
+        self.bet = DEFAULT_BET;
+
         self.choice = None;
         self.enter = false;
         self.dealer_card = None;

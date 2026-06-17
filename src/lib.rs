@@ -3,6 +3,7 @@ pub mod components;
 pub mod constants;
 pub mod event;
 pub mod game;
+pub mod player;
 pub mod rendar;
 pub mod trump;
 pub mod tui;

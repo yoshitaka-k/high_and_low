@@ -1,13 +1,13 @@
+use color_eyre::Result;
+mod mouse_actions;
+mod tick;
+mod update;
+
 use std::{
     sync::mpsc,
     thread,
     time::{Duration, Instant},
 };
-
-use color_eyre::Result;
-mod mouse_actions;
-mod tick;
-mod update;
 
 pub use update::{key_update, mouse_update, tick_update};
 
