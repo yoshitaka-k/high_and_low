@@ -4,6 +4,8 @@ use crate::components::TickerFps;
 use crate::game::Game;
 use crate::rendar::block_position::BlockPosition;
 
+mod phase_enter;
+
 /// 現在の画面を表す列挙型
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum CurrentScreen {
@@ -123,30 +125,9 @@ impl App {
                     self.reset();
                     GamePhase::Deal
                 }
-
-            },
+            }
         };
-        self.on_phase_enter();
-    }
-
-    /// フェーズが変わったときの処理
-    fn on_phase_enter(&mut self) {
-        match self.current_phase {
-            GamePhase::Setup => {
-                self.turn = 1;
-            },
-            GamePhase::Shuffle => {
-                self.shuffle_spinner_ticks = 0;
-                self.text.help = String::from("Shuffling the deck...");
-            },
-            GamePhase::Deal => {
-                self.text.help = String::from("Dealing the cards...");
-            },
-            GamePhase::Playing => {
-                self.text.help = String::from("Card strength: Ace > King > Queen > Jack > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2");
-            },
-            _ => {},
-        }
+        phase_enter::dispatch(self);
     }
 
     /// 次のフェーズへの進行をスケジュールする
