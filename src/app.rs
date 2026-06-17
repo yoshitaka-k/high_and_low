@@ -1,7 +1,8 @@
+use ratatui::style::Color;
+
 use crate::components::TickerFps;
 use crate::game::Game;
 use crate::rendar::block_position::BlockPosition;
-use getset::{Getters, MutGetters, Setters};
 
 /// 現在の画面を表す列挙型
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -25,7 +26,7 @@ pub enum GamePhase {
 }
 
 /// アプリケーションのテキストを表す構造体
-#[derive(Default, Getters, MutGetters, Setters)]
+#[derive(Default)]
 pub struct AppText {
     pub header: String,
     pub footer: String,
@@ -34,16 +35,10 @@ pub struct AppText {
     pub result: String,
 }
 
-impl AppText {
-    pub fn new() -> Self {
-        Self {
-            header: String::new(),
-            footer: String::new(),
-            help: String::new(),
-            disp: String::new(),
-            result: String::new(),
-        }
-    }
+/// アプリケーションの色を表す構造体
+#[derive(Default)]
+pub struct AppColor {
+    pub result: Color,
 }
 
 /// アプリケーションの状態を表す構造体
@@ -56,8 +51,9 @@ pub struct App {
     pub game: Game,
     pub current: usize,
     pub turn: usize,
-    
+
     pub text: AppText,
+    pub color: AppColor,
 
     pub ticker_fps: TickerFps,
 
@@ -81,7 +77,8 @@ impl App {
             current: 0,
             turn: 1,
 
-            text: AppText::new(),
+            text: AppText::default(),
+            color: AppColor::default(),
 
             ticker_fps: TickerFps::new(),
 

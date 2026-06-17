@@ -1,14 +1,13 @@
 use ratatui::{
     layout::{Alignment, Constraint, Layout, Rect},
     text::Text,
-    style::{Color, Style},
+    style::Style,
     widgets::Paragraph,
     Frame,
 };
 use figlet_rs::FIGlet;
 
 use crate::app::App;
-use crate::game::ResultLabel;
 
 /// エンド画面をレンダリングする
 pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
@@ -26,11 +25,7 @@ pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
 
     let result_paragraph = Paragraph::new(Text::from(result_text))
         .alignment(Alignment::Center)
-        .style(Style::default().fg(match app.game.player_card_diff() {
-            ResultLabel::Win => Color::Green,
-            ResultLabel::Lose => Color::Red,
-            _ => Color::Yellow,
-        }));
+        .style(Style::default().fg(app.color.result));
 
     frame.render_widget(result_paragraph, result);
 
@@ -40,11 +35,7 @@ Click to continue",
     );
     let message_paragraph = Paragraph::new(Text::from(message_text))
         .alignment(Alignment::Center)
-        .style(Style::default().fg(match app.game.player_card_diff() {
-            ResultLabel::Win => Color::Green,
-            ResultLabel::Lose => Color::Red,
-            _ => Color::Yellow,
-        }));
+        .style(Style::default().fg(app.color.result));
 
     frame.render_widget(message_paragraph, message);
 
