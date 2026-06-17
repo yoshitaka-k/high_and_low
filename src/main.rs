@@ -4,9 +4,8 @@ use ratatui::{Terminal, backend::CrosstermBackend};
 use high_and_low::constants::TICK_RATE_MILLIS;
 use high_and_low::{
     app::App,
-    event::{Event, EventHandler},
+    event::{Event, EventHandler, key_update, mouse_update, tick_update},
     tui::Tui,
-    update::{key_update, mouse_update, tick_update},
 };
 
 fn main() -> Result<()> {

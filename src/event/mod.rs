@@ -5,6 +5,11 @@ use std::{
 };
 
 use color_eyre::Result;
+mod handlers;
+mod update;
+
+pub use update::{key_update, mouse_update, tick_update};
+
 use ratatui::crossterm::event::{
     self,
     Event as CrosstermEvent,

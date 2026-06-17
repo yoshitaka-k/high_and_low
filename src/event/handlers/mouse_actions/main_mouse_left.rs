@@ -2,7 +2,7 @@ use ratatui::crossterm::event::MouseEvent;
 use ratatui::layout::Position;
 
 use crate::app::{App, GamePhase};
-use crate::handle::playing::handle_playing;
+use crate::event::handlers::playing::handle_playing;
 
 /// メイン画面で左クリックされたときの処理
 pub(crate) fn handle_main_mouse_left(app: &mut App, mouse_event: MouseEvent) {

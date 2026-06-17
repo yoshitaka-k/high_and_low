@@ -3,12 +3,12 @@ use ratatui::crossterm::event::{
 };
 
 use crate::app::{App, CurrentScreen, GamePhase};
-use crate::handle::mouse_actions::{
+use crate::event::handlers::mouse_actions::{
     title_mouse_left::handle_title_mouse_left,
     main_mouse_left::handle_main_mouse_left,
     end_mouse_left::handle_end_mouse_left,
 };
-use crate::handle::tick::{
+use crate::event::handlers::tick::{
     setup::tick_setup,
     shuffle::tick_shuffle,
     deal::tick_deal,
