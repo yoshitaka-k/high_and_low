@@ -15,7 +15,7 @@ pub fn render_help(frame: &mut Frame, area: Rect, app: &App) {
         .borders(Borders::ALL)
         .style(Style::default());
 
-    let help = Paragraph::new(app.help_text.as_str())
+    let help = Paragraph::new(app.text.help.as_str())
     .block(help_block);
 
     frame.render_widget(help, area);

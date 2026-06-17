@@ -11,7 +11,7 @@ use high_and_low::{
 
 fn main() -> Result<()> {
     let mut app = App::new();
-    app.header_text = String::from("Trump game High and Low");
+    app.text.header = String::from("Trump game High and Low");
 
     let backend = CrosstermBackend::new(std::io::stderr());
     let terminal = Terminal::new(backend)?;

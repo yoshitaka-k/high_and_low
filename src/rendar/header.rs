@@ -34,7 +34,7 @@ pub fn render_header(frame: &mut Frame, area: Rect, app: &App) {
 
     // ヘッダーテキストのレンダリング
     let header_text = Paragraph::new(Text::styled(
-        &app.header_text,
+        &app.text.header,
         Style::default().fg(Color::Green).bold(),
     )).block(inner_block.clone());
     frame.render_widget(header_text, left_area);

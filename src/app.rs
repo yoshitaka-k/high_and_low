@@ -24,8 +24,29 @@ pub enum GamePhase {
     End,
 }
 
+/// アプリケーションのテキストを表す構造体
+#[derive(Default, Getters, MutGetters, Setters)]
+pub struct AppText {
+    pub header: String,
+    pub footer: String,
+    pub help: String,
+    pub disp: String,
+    pub result: String,
+}
+
+impl AppText {
+    pub fn new() -> Self {
+        Self {
+            header: String::new(),
+            footer: String::new(),
+            help: String::new(),
+            disp: String::new(),
+            result: String::new(),
+        }
+    }
+}
+
 /// アプリケーションの状態を表す構造体
-#[derive(Getters, MutGetters, Setters)]
 pub struct App {
     pub current_screen: CurrentScreen,
     pub back_screen: CurrentScreen,
@@ -35,10 +56,8 @@ pub struct App {
     pub game: Game,
     pub current: usize,
     pub turn: usize,
-    pub header_text: String,
-    pub footer_text: String,
-    pub help_text: String,
-    pub disp_text: String,
+    
+    pub text: AppText,
 
     pub ticker_fps: TickerFps,
 
@@ -61,10 +80,8 @@ impl App {
             game: Game::new(),
             current: 0,
             turn: 1,
-            header_text: String::new(),
-            footer_text: String::new(),
-            help_text: String::new(),
-            disp_text: String::new(),
+
+            text: AppText::new(),
 
             ticker_fps: TickerFps::new(),
 
@@ -77,8 +94,8 @@ impl App {
     pub fn start(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.back_screen = CurrentScreen::Main;
-        self.disp_text = String::new();
-        self.help_text = String::new();
+        self.text.disp = String::new();
+        self.text.help = String::new();
         self.game.start();
     }
 
@@ -86,8 +103,8 @@ impl App {
     pub fn reset(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.back_screen = CurrentScreen::Main;
-        self.disp_text = String::new();
-        self.help_text = String::new();
+        self.text.disp = String::new();
+        self.text.help = String::new();
         self.game.reset();
     }
 
@@ -123,13 +140,13 @@ impl App {
             },
             GamePhase::Shuffle => {
                 self.shuffle_spinner_ticks = 0;
-                self.help_text = String::from("Shuffling the deck...");
+                self.text.help = String::from("Shuffling the deck...");
             },
             GamePhase::Deal => {
-                self.help_text = String::from("Dealing the cards...");
+                self.text.help = String::from("Dealing the cards...");
             },
             GamePhase::Playing => {
-                self.help_text = String::from("Card strength: Ace > King > Queen > Jack > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2");
+                self.text.help = String::from("Card strength: Ace > King > Queen > Jack > 10 > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2");
             },
             _ => {},
         }

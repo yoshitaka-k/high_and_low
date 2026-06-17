@@ -34,7 +34,7 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
     ]);
     let [_, disp_text_area, _] = disp.layout(&disp_vertical);
 
-    let disp_pagraph = Paragraph::new(app.disp_text.as_str()).alignment(Alignment::Center);
+    let disp_pagraph = Paragraph::new(app.text.disp.as_str()).alignment(Alignment::Center);
 
     frame.render_widget(disp_pagraph, disp_text_area);
 
