@@ -2,6 +2,7 @@ mod deal;
 mod playing;
 mod setup;
 mod shuffle;
+mod end;
 
 use super::{App, GamePhase};
 
@@ -12,6 +13,7 @@ pub(super) fn dispatch(app: &mut App) {
         GamePhase::Shuffle => shuffle::enter_shuffle(app),
         GamePhase::Deal => deal::enter_deal(app),
         GamePhase::Playing => playing::enter_playing(app),
+        GamePhase::End => end::enter_end(app),
         _ => {}
     }
 }

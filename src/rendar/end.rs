@@ -20,8 +20,7 @@ pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
     let [_, result, message, _] = area.layout(&vertical);
 
     let figlet = FIGlet::standard().unwrap();
-    let result_label = app.game.result_label();
-    let result_text = format!("{}", figlet.convert(result_label).unwrap());
+    let result_text = format!("{}", figlet.convert(app.text.result.as_str()).unwrap());
 
     let result_paragraph = Paragraph::new(Text::from(result_text))
         .alignment(Alignment::Center)
