@@ -15,11 +15,11 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         Constraint::Length(3),
         Constraint::Length(4),
         Constraint::Length(5),
+        Constraint::Fill(1),
         Constraint::Length(5),
         Constraint::Fill(1),
-        Constraint::Fill(1),
     ]);
-    let [credits_disp, bet_disp, win_disp, choice_disp, enter_btn, high_btn, low_btn] = area.layout(&vertical);
+    let [credits_disp, bet_disp, win_disp, choice_disp, high_btn, enter_btn, low_btn] = area.layout(&vertical);
 
     // 選択肢のブロックをレンダリング
     let disp_block = Block::new()
@@ -33,7 +33,7 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         .title("Credits")
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1));
-    let credits_paragraph = Paragraph::new(format!("{} credits", app.player.credits()))
+    let credits_paragraph = Paragraph::new(format!("{} credits", app.player.credits() - app.game.bet()))
         .block(credits_block);
     frame.render_widget(credits_paragraph, credits_disp);
 

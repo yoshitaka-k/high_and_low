@@ -14,4 +14,4 @@ pub const DEFAULT_CREDITS: i32 = 100;
 pub const DEFAULT_BET: i32 = 10;
 
 /// 勝利数に応じたボーナスの割合
-pub const WIN_STREAK_BONUS: f32 = 0.05;
+pub const WIN_STREAK_BONUS: f32 = 0.005;

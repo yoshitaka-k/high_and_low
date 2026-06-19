@@ -7,6 +7,7 @@ use crate::event::mouse_actions::{
     title_mouse_left::handle_title_mouse_left,
     main_mouse_left::handle_main_mouse_left,
     end_mouse_left::handle_end_mouse_left,
+    bet_input_mouse_left::handle_bet_input_mouse_left,
 };
 use crate::event::tick;
 
@@ -37,7 +38,7 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
         MouseEventKind::Up(MouseButton::Left) => {
             match app.current_screen {
                 CurrentScreen::Title => handle_title_mouse_left(app),
-                CurrentScreen::BetInput => handle_main_mouse_left(app, mouse_event),
+                CurrentScreen::BetInput => handle_bet_input_mouse_left(app, mouse_event),
                 CurrentScreen::Main => handle_main_mouse_left(app, mouse_event),
                 CurrentScreen::End => handle_end_mouse_left(app),
                 _ => {}
@@ -47,9 +48,7 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
         // 右クリックされたときの処理
         MouseEventKind::Up(MouseButton::Right) => {
             match app.current_screen {
-                CurrentScreen::Exiting => {
-                    app.current_screen = CurrentScreen::Main;
-                }
+                CurrentScreen::Exiting => app.current_screen = CurrentScreen::Main,
                 _ => {}
             }
         }
