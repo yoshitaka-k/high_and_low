@@ -1,7 +1,5 @@
 use getset::{Getters, Setters};
 
-use crate::constants::DEFAULT_CREDITS;
-
 /// プレイヤーの情報を管理する構造体
 #[derive(Getters, Setters)]
 pub struct Player {
@@ -19,8 +17,8 @@ pub struct Player {
 
 impl Player {
     /// 新しいプレイヤーを作成する
-    pub fn new(name: String) -> Self {
-        Self { name, credits: DEFAULT_CREDITS, win: 0, max_win: 0 }
+    pub fn new(name: String, credits: i32) -> Self {
+        Self { name, credits, win: 0, max_win: 0 }
     }
 
     /// ベットを行う

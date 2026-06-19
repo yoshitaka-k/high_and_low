@@ -26,6 +26,8 @@ pub struct Game {
 
     #[getset(get = "pub", set = "pub")]
     bet: i32,
+    #[getset(get = "pub", set = "pub")]
+    input_bet: i32,
 
     #[getset(get = "pub", get_mut = "pub", set = "pub")]
     dealer_card: Option<Card>,
@@ -48,6 +50,7 @@ impl Game {
             deck: Deck::new(),
 
             bet: 0,
+            input_bet: 0,
 
             shuffle: None,
 

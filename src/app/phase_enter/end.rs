@@ -29,7 +29,8 @@ pub(crate) fn enter_end(app: &mut App) {
     };
     app.player.credit_add(result);
 
-    app.text.bet_result = format!("Get bets: {}", result);
+    app.text.bet_result = format!("{}", result);
+    app.text.credits = format!("{}", *app.player.credits());
 
     // 勝敗結果に応じて、テキストと色を更新する
     app.text.result = app.game.result_label().to_string();
@@ -38,4 +39,10 @@ pub(crate) fn enter_end(app: &mut App) {
         ResultLabel::Lose => Color::Red,
         _ => Color::Yellow,
     };
+
+    // クレジットが0以下になったらゲームオーバーにする
+    if *app.player.credits() <= 0 {
+        app.text.result = String::from("Game Over");
+        app.color.result = Color::Red;
+    }
 }

@@ -7,6 +7,7 @@ use crate::app::{text::AppText, color::AppColor};
 use crate::game::Game;
 use crate::player::Player;
 use crate::rendar::block_position::BlockPosition;
+use crate::constants::DEFAULT_CREDITS;
 
 /// 現在の画面を表す列挙型
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -69,7 +70,7 @@ impl App {
             positions: BlockPosition::default(),
             should_quit: false,
             game: Game::new(),
-            player: Player::new("Player".to_string()),
+            player: Player::new("Player".to_string(), DEFAULT_CREDITS),
             current: 0,
             turn: 1,
 
@@ -87,7 +88,7 @@ impl App {
     pub fn start(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.back_screen = CurrentScreen::Main;
-        self.text.disp = String::new();
+        self.text.choice = String::new();
         self.text.help = String::new();
         self.game.start();
     }
@@ -96,7 +97,7 @@ impl App {
     pub fn reset(&mut self) {
         self.current_screen = CurrentScreen::Main;
         self.back_screen = CurrentScreen::Main;
-        self.text.disp = String::new();
+        self.text.choice = String::new();
         self.text.help = String::new();
         self.game.reset();
     }
@@ -112,13 +113,20 @@ impl App {
             GamePhase::Playing => GamePhase::Result,
             GamePhase::Result => GamePhase::End,
             GamePhase::End => {
-                self.turn += 1;
+                //ゲームオーバーになったからタイトルへ戻る
+                if *self.player.credits() <= 0 {
+                    GamePhase::Title
 
-                if self.game.deck().len() < 2 {
-                    GamePhase::Setup
                 } else {
-                    self.reset();
-                    GamePhase::Deal
+                    self.turn += 1;
+
+                    if self.game.deck().len() < 2 {
+                        GamePhase::Setup
+                    } else {
+                        self.reset();
+                        GamePhase::Deal
+                    }
+
                 }
             }
         };

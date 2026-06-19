@@ -4,12 +4,14 @@ mod setup;
 mod shuffle;
 mod end;
 mod bet_input;
+mod title;
 
 use super::{App, GamePhase};
 
 /// フェーズが変わったときの処理
 pub(super) fn dispatch(app: &mut App) {
     match app.current_phase {
+        GamePhase::Title => title::enter_title(app),
         GamePhase::BetInput => bet_input::enter_bet_input(app),
         GamePhase::Setup => setup::enter_setup(app),
         GamePhase::Shuffle => shuffle::enter_shuffle(app),

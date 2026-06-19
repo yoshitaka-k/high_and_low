@@ -33,7 +33,7 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         .title("Credits")
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1));
-    let credits_paragraph = Paragraph::new(format!("{} credits", app.player.credits() - app.game.bet()))
+    let credits_paragraph = Paragraph::new(app.text.credits.as_str())
         .block(credits_block);
     frame.render_widget(credits_paragraph, credits_disp);
 
@@ -42,7 +42,7 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         .title("Bet")
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1));
-    let bet_paragraph = Paragraph::new(format!("{} bets", app.game.bet()))
+    let bet_paragraph = Paragraph::new(app.text.bet.as_str())
         .block(bet_block);
     frame.render_widget(bet_paragraph, bet_disp);
 
@@ -66,7 +66,7 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         Constraint::Fill(1),
     ]);
     let [_, disp_text_area, _] = choice_disp.layout(&disp_vertical);
-    let choice_paragraph = Paragraph::new(app.text.disp.as_str())
+    let choice_paragraph = Paragraph::new(app.text.choice.as_str())
         .alignment(Alignment::Center);
     frame.render_widget(choice_paragraph, disp_text_area);
 

@@ -41,6 +41,8 @@ pub(crate) fn handle_bet_input(app: &mut App, mouse_pos: Position) {
             return;
         }
 
+        app.game.set_input_bet(bet);
+
         app.advance_phase();
     }
 }

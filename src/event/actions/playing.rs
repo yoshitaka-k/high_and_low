@@ -7,13 +7,13 @@ use crate::game::PlayerChoice;
 pub(crate) fn handle_playing(app: &mut App, mouse_pos: Position) {
     // 高い方を選択する
     if app.positions.high().contains(mouse_pos) {
-        app.text.disp = String::from("High");
+        app.text.choice = String::from("High");
         app.game.set_choice(Some(PlayerChoice::High));
     }
 
     // 低い方を選択する
     if app.positions.low().contains(mouse_pos) {
-        app.text.disp = String::from("Low");
+        app.text.choice = String::from("Low");
         app.game.set_choice(Some(PlayerChoice::Low));
     }
 
@@ -22,7 +22,7 @@ pub(crate) fn handle_playing(app: &mut App, mouse_pos: Position) {
         if app.game.choice().is_some() {
             app.game.set_enter(true);
         } else {
-            app.text.disp = String::from("Please select a choice");
+            app.text.choice = String::from("Please select a choice");
         }
     }
 }
