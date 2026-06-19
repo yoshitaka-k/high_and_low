@@ -36,7 +36,10 @@ pub fn render_bet_input(frame: &mut Frame, _area: Rect, app: &mut App) {
     frame.render_widget(block.clone(), bet_area);
 
     // テキストを表示
-    let text_paragraph = Paragraph::new("Please enter your bet amount")
+    let text_paragraph = Paragraph::new(
+"Please enter your bet amount
+Game Over When Credits Hit 0."
+)
         .alignment(Alignment::Center);
     frame.render_widget(text_paragraph, bet_text);
 
