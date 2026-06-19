@@ -1,5 +1,4 @@
-use crate::app::App;
-use crate::app::GamePhase;
+use crate::app::{App, GamePhase};
 use crate::constants::TICK_RATE_MILLIS;
 
 /// 結果画面を表示した後少し待機する（tick数に変換したもの）

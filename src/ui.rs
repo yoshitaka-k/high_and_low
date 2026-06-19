@@ -12,6 +12,7 @@ use crate::rendar::{
     end::render_end,
     popup::shuffle::render_shuffle,
     popup::exiting::render_exiting,
+    popup::bet_input::render_bet_input,
 };
 
 /// UI を描画する
@@ -41,6 +42,9 @@ pub fn render(frame: &mut Frame, app: &mut App) {
         CurrentScreen::End => {
             app.back_screen = CurrentScreen::End;
             render_end(frame, main, app);
+        }
+        CurrentScreen::BetInput => {
+            render_bet_input(frame, main, app);
         }
         CurrentScreen::Shuffle => {
             render_shuffle(frame, main, app);

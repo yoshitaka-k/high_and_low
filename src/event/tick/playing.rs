@@ -1,5 +1,4 @@
-use crate::app::App;
-use crate::app::GamePhase;
+use crate::app::{App, GamePhase};
 
 /// プレイフェーズの処理
 pub(crate) fn tick_playing(app: &mut App) {

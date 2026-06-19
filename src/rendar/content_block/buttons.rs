@@ -15,11 +15,11 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         Constraint::Length(3),
         Constraint::Length(4),
         Constraint::Length(5),
-        Constraint::Fill(1),
         Constraint::Length(5),
         Constraint::Fill(1),
+        Constraint::Fill(1),
     ]);
-    let [credits_disp, bet_disp, win_disp, choice_disp, high_btn, enter_btn, low_btn] = area.layout(&vertical);
+    let [credits_disp, bet_disp, win_disp, choice_disp, enter_btn, high_btn, low_btn] = area.layout(&vertical);
 
     // 選択肢のブロックをレンダリング
     let disp_block = Block::new()
@@ -75,14 +75,14 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1))
         .style(Style::default().fg(Color::Green));
+        let low_block = Block::new()
+        .borders(Borders::ALL)
+        .padding(Padding::horizontal(1))
+        .style(Style::default().fg(Color::Yellow));
     let enter_block = Block::new()
         .borders(Borders::ALL)
         .padding(Padding::horizontal(1))
         .style(Style::default().fg(Color::Cyan));
-    let low_block = Block::new()
-        .borders(Borders::ALL)
-        .padding(Padding::horizontal(1))
-        .style(Style::default().fg(Color::Yellow));
 
     // ボタンをレンダリング
     let high_paraph = Paragraph::new("High").block(high_block);
@@ -91,11 +91,11 @@ pub fn render_buttons(frame: &mut Frame, area: Rect, app: &mut App) {
 
     // ボタンを描画
     frame.render_widget(high_paraph, high_btn);
-    frame.render_widget(enter_paraph, enter_btn);
     frame.render_widget(low_paraph, low_btn);
+    frame.render_widget(enter_paraph, enter_btn);
 
     // ボタンの位置を設定
     app.positions.set_high(high_btn);
-    app.positions.set_enter(enter_btn);
     app.positions.set_low(low_btn);
+    app.positions.set_enter(enter_btn);
 }

@@ -38,6 +38,9 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
             CurrentScreen::End => {
                 Span::styled("Result", Style::default().fg(Color::Green).bold())
             }
+            CurrentScreen::BetInput => {
+                Span::styled("Bet Input", Style::default().fg(Color::Green).bold())
+            }
             CurrentScreen::Shuffle => {
                 Span::styled("Shuffling", Style::default().fg(Color::Green).bold())
             }
@@ -51,6 +54,7 @@ fn footer_left_area(app: &App) -> Paragraph<'_> {
             Span::styled(
                 format!("{}", match app.current_phase {
                     GamePhase::Title => "Title Phase",
+                    GamePhase::BetInput => "Bet Input Phase",
                     GamePhase::Setup => "Setup Phase",
                     GamePhase::Shuffle => "Shuffle Phase",
                     GamePhase::Deal => "Deal Phase",

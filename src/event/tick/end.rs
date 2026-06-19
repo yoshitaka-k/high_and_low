@@ -1,5 +1,4 @@
-use crate::app::App;
-use crate::app::{CurrentScreen, GamePhase};
+use crate::app::{App, CurrentScreen, GamePhase};
 
 /// エンドフェーズの処理
 pub(crate) fn tick_end(app: &mut App) {

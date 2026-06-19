@@ -1,4 +1,5 @@
 use color_eyre::Result;
+mod actions;
 mod mouse_actions;
 mod tick;
 mod update;

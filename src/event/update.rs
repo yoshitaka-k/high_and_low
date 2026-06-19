@@ -37,6 +37,7 @@ pub fn mouse_update(app: &mut App, mouse_event: MouseEvent) {
         MouseEventKind::Up(MouseButton::Left) => {
             match app.current_screen {
                 CurrentScreen::Title => handle_title_mouse_left(app),
+                CurrentScreen::BetInput => handle_main_mouse_left(app, mouse_event),
                 CurrentScreen::Main => handle_main_mouse_left(app, mouse_event),
                 CurrentScreen::End => handle_end_mouse_left(app),
                 _ => {}

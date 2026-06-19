@@ -14,6 +14,7 @@ pub enum CurrentScreen {
     Title,
     Main,
     End,
+    BetInput,
     Shuffle,
     Exiting,
 }
@@ -21,6 +22,7 @@ pub enum CurrentScreen {
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum GamePhase {
     Title,
+    BetInput,
     Setup,
     Shuffle,
     Deal,
@@ -102,7 +104,8 @@ impl App {
     /// 次のフェーズへ進む
     pub fn advance_phase(&mut self) {
         self.current_phase = match self.current_phase {
-            GamePhase::Title => GamePhase::Setup,
+            GamePhase::Title => GamePhase::BetInput,
+            GamePhase::BetInput => GamePhase::Setup,
             GamePhase::Setup => GamePhase::Shuffle,
             GamePhase::Shuffle => GamePhase::Deal,
             GamePhase::Deal => GamePhase::Playing,

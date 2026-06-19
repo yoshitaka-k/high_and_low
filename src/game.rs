@@ -2,9 +2,7 @@ use std::cmp::Ordering;
 
 use getset::{Getters, MutGetters, Setters};
 
-use crate::constants::DEFAULT_BET;
 use crate::trump::{Card, Deck, shuffle::{ShufflePhase, ShuffleRunner}};
-
 
 /// プレイヤーの選択
 #[derive(PartialEq)]
@@ -63,8 +61,6 @@ impl Game {
 
     /// 山札を用意して、シャッフルを開始する
     pub fn start(&mut self) {
-        self.bet = DEFAULT_BET;
-
         self.choice = None;
         self.enter = false;
 
@@ -77,8 +73,6 @@ impl Game {
 
     /// ゲームをリセットする
     pub fn reset(&mut self) {
-        self.bet = DEFAULT_BET;
-
         self.choice = None;
         self.enter = false;
         self.dealer_card = None;
