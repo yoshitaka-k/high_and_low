@@ -7,4 +7,5 @@ pub struct AppText {
     pub disp: String,
     pub result: String,
     pub win_bonus: String,
+    pub bet_result: String,
 }

@@ -12,9 +12,9 @@ pub fn render_title(frame: &mut Frame, area: Rect) {
     let vertical = Layout::vertical([
         Constraint::Fill(1),
         Constraint::Length(6),
-        Constraint::Length(7),
+        Constraint::Length(8),
         Constraint::Fill(1),
-    ]).spacing(1);
+    ]);
     let [_, title, message, _] = area.layout(&vertical);
 
     let figlet = FIGlet::standard().unwrap();
@@ -28,7 +28,7 @@ pub fn render_title(frame: &mut Frame, area: Rect) {
     frame.render_widget(title_paragraph, title);
 
     let message_text = format!(
-"---------------------------------------------------
+"\n---------------------------------------------------
 Version: {}  |  License: {}
 Starting {} Game Engine... 🚀
 ---------------------------------------------------\n

@@ -14,9 +14,9 @@ pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
     let vertical = Layout::vertical([
         Constraint::Fill(1),
         Constraint::Length(5),
-        Constraint::Length(3),
+        Constraint::Length(7),
         Constraint::Fill(1),
-    ]).spacing(1);
+    ]);
     let [_, result, message, _] = area.layout(&vertical);
 
     let figlet = FIGlet::standard().unwrap();
@@ -29,8 +29,11 @@ pub fn render_end(frame: &mut Frame, area: Rect, app: &mut App) {
     frame.render_widget(result_paragraph, result);
 
     let message_text = format!(
-"--------------------------------\n
+"\n----------------------------------------
+{}
+----------------------------------------\n
 Click to continue",
+        app.text.bet_result,
     );
     let message_paragraph = Paragraph::new(Text::from(message_text))
         .alignment(Alignment::Center)

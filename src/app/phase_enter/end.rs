@@ -22,11 +22,14 @@ pub(crate) fn enter_end(app: &mut App) {
 
     let bet = *app.game.bet();
     let bonus = win as f32 * WIN_STREAK_BONUS;
-    app.player.credit_add(match app.game.player_card_diff() {
+    let result = match app.game.player_card_diff() {
         ResultLabel::Win => bet + (bet as f32 * bonus) as i32,
         ResultLabel::Lose => -bet,
         _ => 0,
-    });
+    };
+    app.player.credit_add(result);
+
+    app.text.bet_result = format!("Get bets: {}", result);
 
     // 勝敗結果に応じて、テキストと色を更新する
     app.text.result = app.game.result_label().to_string();
