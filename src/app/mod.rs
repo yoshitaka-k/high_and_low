@@ -105,10 +105,10 @@ impl App {
     /// 次のフェーズへ進む
     pub fn advance_phase(&mut self) {
         self.current_phase = match self.current_phase {
-            GamePhase::Title => GamePhase::BetInput,
-            GamePhase::BetInput => GamePhase::Setup,
+            GamePhase::Title => GamePhase::Setup,
             GamePhase::Setup => GamePhase::Shuffle,
-            GamePhase::Shuffle => GamePhase::Deal,
+            GamePhase::Shuffle => GamePhase::BetInput,
+            GamePhase::BetInput => GamePhase::Deal,
             GamePhase::Deal => GamePhase::Playing,
             GamePhase::Playing => GamePhase::Result,
             GamePhase::Result => GamePhase::End,
@@ -124,7 +124,7 @@ impl App {
                         GamePhase::Setup
                     } else {
                         self.reset();
-                        GamePhase::Deal
+                        GamePhase::BetInput
                     }
 
                 }
